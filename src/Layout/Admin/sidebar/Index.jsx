@@ -1,5 +1,8 @@
 import React, { useContext } from "react";
 import { AdminContext } from "../../../Context/AdminLayoutContext";
+import Avatar from "./Components/Avatar";
+import SidebarGroupTitle from "./Components/SidebarGroupTitle";
+import SidebarItem from "./Components/SidebarItem";
 
 const Index = () => {
   const { showSidebar } = useContext(AdminContext);
@@ -10,158 +13,107 @@ const Index = () => {
           showSidebar ? "expanded" : ""
         }`}
       >
-        <ul className="p-0 m-0">
-          <li className="pt-1 pb-2 d-flex flex-column avatar_li position-relative">
-            <span className="avatar_box">
-              <img
-                className="w-100 rounded-circle"
-                src="/assets/images/avatar/user2.jpg"
-                alt=""
-              />
-            </span>
-            <div className="sidebar_avatar_name text-center hiddenable">
-              قاسم بساکی
-            </div>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item mt-2 active"
-            data-section-id="dashboard_section"
-          >
-            <i className="ms-3 icon fas fa-tachometer-alt text-light"></i>
-            <span className="hiddenable no_wrap font_08">داشبورد</span>
-          </li>
+        <div className="p-0 m-0">
+          <Avatar
+            name="قاسم بساکی"
+            imagePath="../../../assets/images/avatar/user2.jpg"
+            alt="Avatar"
+          />
+
+          <SidebarItem
+            title={"داشبورد"}
+            icon={"fas fa-tachometer-alt"}
+            customClass={"mt-2 active"}
+          />
+
           {/* <!-- =================================== --> */}
-          <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-            <span className="hiddenable no_wrap group_sidebar_title">
-              فروشگاه
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_product_category"
-          >
-            <i className="ms-3 icon fas fa-stream text-light"></i>
-            <span className="hiddenable no_wrap font_08">
-              مدیریت گروه محصول
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_product_section"
-          >
-            <i className="ms-3 icon fas fa-cube text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت محصول</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_brand_section"
-          >
-            <i className="ms-3 icon fas fa-copyright text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت برند ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_guarantee_section"
-          >
-            <i className="ms-3 icon fab fa-pagelines text-light"></i>
-            <span className="hiddenable no_wrap font_08">
-              مدیریت گارانتی ها
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_color_section"
-          >
-            <i className="ms-3 icon fas fa-palette text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت رنگ ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_discount_section"
-          >
-            <i className="ms-3 icon fas fa-percentage text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت تخفیف ها</span>
-          </li>
+          <SidebarGroupTitle title={"فروشگاه"} />
+
+          <SidebarItem
+            title={"مدیریت گروه محصول"}
+            icon={"fas fa-stream"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"مدیریت محصول"}
+            icon={"fas fa-cube"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"مدیریت برند ها"}
+            icon={"fas fa-copyright"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"مدیریت گارانتی ها"}
+            icon={"fab fa-pagelines"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"مدیریت رنگ ها"}
+            icon={"fas fa-palette"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"مدیریت تخفیف ها"}
+            icon={"fas fa-percentage"}
+            customClass={""}
+          />
+
           {/* <!-- =================================== --> */}
-          <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-            <span className="hiddenable no_wrap group_sidebar_title">
-              سفارشات و سبد
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_cart_section"
-          >
-            <i className="ms-3 icon fas fa-shopping-basket text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت سبد ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_orders_section"
-          >
-            <i className="ms-3 icon fas fa-luggage-cart text-light"></i>
-            <span className="hiddenable no_wrap font_08">مدیریت سفارشات</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_deliveries_section"
-          >
-            <i className="ms-3 icon fas fa-truck-loading text-light"></i>
-            <span className="hiddenable no_wrap font_08">
-              مدیریت نحوه ارسال
-            </span>
-          </li>
+          <SidebarGroupTitle title={"سفارشات و سبد"} />
+
+          <SidebarItem
+            title={"مدیریت سبد ها"}
+            icon={"fas fa-shopping-basket"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"مدیریت سفارشات"}
+            icon={"fas fa-luggage-cart"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"مدیریت نحوه ارسال"}
+            icon={"fas fa-truck-loading"}
+            customClass={""}
+          />
+
           {/* <!-- =================================== --> */}
-          <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-            <span className="hiddenable no_wrap group_sidebar_title ">
-              کاربران و همکاران
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_user_section"
-          >
-            <i className="ms-3 icon fas fa-users text-light"></i>
-            <span className="hiddenable no_wrap font_08">مشاهده کاربران</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_role_section"
-          >
-            <i className="ms-3 icon fas fa-user-tag text-light"></i>
-            <span className="hiddenable no_wrap font_08">نقش ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_permission_section"
-          >
-            <i className="ms-3 icon fas fa-shield-alt text-light"></i>
-            <span className="hiddenable no_wrap font_08">مجوز ها</span>
-          </li>
+          <SidebarGroupTitle title={"کاربران و همکاران"} />
+
+          <SidebarItem
+            title={"مشاهده کاربران"}
+            icon={"fas fa-users"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"نقش ها"}
+            icon={"fas fa-user-tag"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"مجوز ها"}
+            icon={"fas fa-shield-alt"}
+            customClass={""}
+          />
+
           {/* <!-- =================================== --> */}
-          <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-            <span className="hiddenable no_wrap group_sidebar_title ">
-              ارتباطات
-            </span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_question_section"
-          >
-            <i className="ms-3 icon fas fa-question-circle text-light"></i>
-            <span className="hiddenable no_wrap font_08">سوال ها</span>
-          </li>
-          <li
-            className="py-1 text-start pe-4 sidebar_menu_item"
-            data-section-id="manage_comments_section"
-          >
-            <i className="ms-3 icon fas fa-comment text-light"></i>
-            <span className="hiddenable no_wrap font_08">نظرات</span>
-          </li>
+          <SidebarGroupTitle title={"ارتباطات"} />
+
+          <SidebarItem
+            title={"سوال ها"}
+            icon={"fas fa-question-circle"}
+            customClass={""}
+          />
+          <SidebarItem
+            title={"نظرات"}
+            icon={"fas fa-comment"}
+            customClass={""}
+          />
           {/* <!-- <li className="py-2 btn-group dropstart pe-4">
                   <i className="ms-3 icon fas fa-check text-light"></i>
                   <span className="hiddenable" data-bs-toggle="dropdown" aria-expanded="false">داشبورد</span>
-                  
                   <ul className="dropdown-menu px-2 sidebar_submenu_list">
                     <li className="d-none">اول</li>
                     <li>اول</li>
@@ -169,7 +121,7 @@ const Index = () => {
                     <li>سوم</li>
                   </ul>
               </li> --> */}
-        </ul>
+        </div>
       </div>
     </section>
   );
