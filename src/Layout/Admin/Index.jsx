@@ -5,6 +5,7 @@ import { toggleSidebar } from "../../Utils/initialDoms";
 import AdminContextContainer, {
   AdminContext,
 } from "../../Context/AdminLayoutContext";
+import Dashboard from "../../Pages/Dashboard/Dashboard";
 const Index = () => {
   // useEffect(() => {
   //   // require("../../assets/js/toogleSidebar");
@@ -20,7 +21,9 @@ const Index = () => {
         <section
           id="content_section"
           className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : ""}`}
-        ></section>
+        >
+          <Dashboard />
+        </section>
       </div>
     </AdminContextContainer>
   );
