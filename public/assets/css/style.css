@@ -38,7 +38,9 @@ body {
 :root {
   --transition_300: all 300ms ease;
 }
-
+a {
+  text-decoration: none;
+}
 .hoverable_text {
   transition: all 200ms ease;
 }
@@ -124,7 +126,9 @@ th {
 .top_navbar {
   height: 64px;
 }
-
+.navbar.fixed-top {
+  z-index: unset;
+}
 .top_navbar .navbar-brand {
   width: 60px;
 }
@@ -398,5 +402,13 @@ th {
   );
   filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0061FF", endColorstr="#60EFFF", GradientType=1 );
 }
-
+.modal-backdrop.fade {
+  display: none;
+}
 /* content end-------<<<<<<< */
+
+/* modal start--------<<<<<<<< */
+/* .modal-window {
+  position: fixed;
+  z-index: 1000;
+} */

@@ -6,6 +6,8 @@ import AdminContextContainer, {
   AdminContext,
 } from "../../Context/AdminLayoutContext";
 import Dashboard from "../../Pages/Dashboard/Dashboard";
+import Category from "../../Pages/Category/Category";
+import AddCategory from "../../Pages/Category/Components/AddCategory";
 const Index = () => {
   // useEffect(() => {
   //   // require("../../assets/js/toogleSidebar");
@@ -22,7 +24,9 @@ const Index = () => {
           id="content_section"
           className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : ""}`}
         >
-          <Dashboard />
+          {/* <Dashboard /> */}
+          <Category />
+          <AddCategory />
         </section>
       </div>
     </AdminContextContainer>
