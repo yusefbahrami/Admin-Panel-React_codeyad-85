@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 
 const TableProduct = () => {
-    return(
-        <Fragment>
-                  <table className="table table-responsive text-center table-hover table-bordered">
+  return (
+    <Fragment>
+      <table className="table table-responsive text-center table-hover table-bordered">
         <thead className="table-secondary">
           <tr>
             <th>#</th>
@@ -84,7 +84,7 @@ const TableProduct = () => {
           </li>
         </ul>
       </nav>
-        </Fragment>
-    )
+    </Fragment>
+  );
 };
 export default TableProduct;
