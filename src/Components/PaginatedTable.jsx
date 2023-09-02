@@ -1,29 +1,71 @@
 import React, { Fragment, useEffect, useState } from "react";
-let numOfPage = 2;
 
-const PaginatedTable = ({ data, dataInfo, additionalField }) => {
+const PaginatedTable = ({
+  children,
+  data,
+  dataInfo,
+  additionalField,
+  searchParams,
+}) => {
+  const [initData, setInitData] = useState(data);
   const [tableData, setTableData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState([]);
   const [pageCount, setPageCount] = useState(1);
+  const [searchChar, setSearchChar] = useState("");
+  const [numOfPage, setNumOfPage] = useState(initData.length);
 
   useEffect(() => {
-    let pCount = Math.ceil(data.length / numOfPage);
+    let pCount = Math.ceil(initData.length / numOfPage);
     setPageCount(pCount);
     let pArr = [];
     for (let index = 1; index <= pCount; index++) {
       pArr = [...pArr, index];
     }
     setPages(pArr);
-  }, []);
+  }, [initData, numOfPage]);
 
   useEffect(() => {
     let start = currentPage * numOfPage - numOfPage;
     let end = currentPage * numOfPage;
-    setTableData(data.slice(start, end));
-  }, [currentPage]);
+    setTableData(initData.slice(start, end));
+  }, [currentPage, initData, numOfPage]);
+
+  useEffect(() => {
+    setInitData(
+      data.filter((d) => d[searchParams.searchField].includes(searchChar))
+    );
+    setCurrentPage(1);
+  }, [searchChar]);
+
+  const handleSetNumOfPage = (e) => {
+    if (e.target.value == "") {
+      setNumOfPage(1);
+    } else if (Number(e.target.value >= initData.length)) {
+      setNumOfPage(initData.length);
+    } else {
+      setNumOfPage(Number(e.target.value));
+    }
+  };
   return (
     <Fragment>
+      <div className="row justify-content-between">
+        <div className="col-10 col-md-6 col-lg-4">
+          <div className="input-group mb-3 dir_ltr">
+            <input
+              type="text"
+              className="form-control"
+              placeholder={searchParams.placeholder}
+              onChange={(e) => setSearchChar(e.target.value)}
+            />
+            <span className="input-group-text">{searchParams.title}</span>
+          </div>
+        </div>
+        <div className="col-2 col-md-6 col-lg-4 d-flex flex-column align-items-end">
+          {children}
+        </div>
+      </div>
+
       <table className="table table-responsive text-center table-hover table-bordered">
         <thead className="table-secondary">
           <tr>
@@ -47,51 +89,64 @@ const PaginatedTable = ({ data, dataInfo, additionalField }) => {
         </tbody>
       </table>
 
-      <nav
-        aria-label="Page navigation example"
-        className="d-flex justify-content-center"
-      >
-        <ul className="pagination dir_ltr">
-          <li className="page-item">
-            <span
-              className={`page-link pointer ${
-                currentPage == 1 ? "disabled" : ""
-              }`}
-              href="#"
-              aria-label="Previous"
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
-              <span aria-hidden="true">&raquo;</span>
-            </span>
-          </li>
-          {pages.map((page) => (
-            <li key={page} className="page-item">
+      <div>
+        <input
+          type="number"
+          id="input-itemNumber"
+          onChange={handleSetNumOfPage}
+          value={numOfPage}
+          min={1}
+          max={initData.length}
+        />
+      </div>
+
+      {pages.length > 1 ? (
+        <nav
+          aria-label="Page navigation example"
+          className="d-flex justify-content-center"
+        >
+          <ul className="pagination dir_ltr">
+            <li className="page-item">
               <span
                 className={`page-link pointer ${
-                  currentPage == page ? "alert-success" : ""
+                  currentPage == 1 ? "disabled" : ""
                 }`}
                 href="#"
-                onClick={() => setCurrentPage(page)}
+                aria-label="Previous"
+                onClick={() => setCurrentPage(currentPage - 1)}
               >
-                {page}
+                <span aria-hidden="true">&raquo;</span>
               </span>
             </li>
-          ))}
+            {pages.map((page) => (
+              <li key={page} className="page-item">
+                <span
+                  className={`page-link pointer ${
+                    currentPage == page ? "alert-success" : ""
+                  }`}
+                  href="#"
+                  onClick={() => setCurrentPage(page)}
+                >
+                  {page}
+                </span>
+              </li>
+            ))}
 
-          <li className="page-item">
-            <span
-              className={`page-link pointer ${
-                currentPage == pageCount ? "disabled" : ""
-              }`}
-              href="#"
-              aria-label="Next"
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              <span aria-hidden="true">&laquo;</span>
-            </span>
-          </li>
-        </ul>
-      </nav>
+            <li className="page-item">
+              <span
+                className={`page-link pointer ${
+                  currentPage == pageCount ? "disabled" : ""
+                }`}
+                href="#"
+                aria-label="Next"
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </span>
+            </li>
+          </ul>
+        </nav>
+      ) : null}
     </Fragment>
   );
 };
