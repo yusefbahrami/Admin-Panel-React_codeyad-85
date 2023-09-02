@@ -1,12 +1,13 @@
 import React from "react";
 import Index from "./Layout/Admin";
-// import "./assets/css/bootstrap.min.css";
-// import "./assets/fontawesome/css/all.css";
-// import "./assets/css/style.css";
+import { BrowserRouter } from "react-router-dom";
+
 function App() {
   return (
     <div className="App">
-      <Index />
+      <BrowserRouter>
+        <Index />
+      </BrowserRouter>
     </div>
   );
 }
