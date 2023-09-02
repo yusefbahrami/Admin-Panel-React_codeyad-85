@@ -1,6 +1,27 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+let numOfPage = 2;
 
 const PaginatedTable = ({ data, dataInfo, additionalField }) => {
+  const [tableData, setTableData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pages, setPages] = useState([]);
+  const [pageCount, setPageCount] = useState(1);
+
+  useEffect(() => {
+    let pCount = Math.ceil(data.length / numOfPage);
+    setPageCount(pCount);
+    let pArr = [];
+    for (let index = 1; index <= pCount; index++) {
+      pArr = [...pArr, index];
+    }
+    setPages(pArr);
+  }, []);
+
+  useEffect(() => {
+    let start = currentPage * numOfPage - numOfPage;
+    let end = currentPage * numOfPage;
+    setTableData(data.slice(start, end));
+  }, [currentPage]);
   return (
     <Fragment>
       <table className="table table-responsive text-center table-hover table-bordered">
@@ -13,7 +34,7 @@ const PaginatedTable = ({ data, dataInfo, additionalField }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((data) => (
+          {tableData.map((data) => (
             <tr key={data.id}>
               {dataInfo.map((item) => (
                 <td key={`${item.field}_${data.id}`}>{data[item.field]}</td>
@@ -32,29 +53,42 @@ const PaginatedTable = ({ data, dataInfo, additionalField }) => {
       >
         <ul className="pagination dir_ltr">
           <li className="page-item">
-            <a className="page-link" href="#" aria-label="Previous">
+            <span
+              className={`page-link pointer ${
+                currentPage == 1 ? "disabled" : ""
+              }`}
+              href="#"
+              aria-label="Previous"
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
               <span aria-hidden="true">&raquo;</span>
-            </a>
+            </span>
           </li>
+          {pages.map((page) => (
+            <li key={page} className="page-item">
+              <span
+                className={`page-link pointer ${
+                  currentPage == page ? "alert-success" : ""
+                }`}
+                href="#"
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </span>
+            </li>
+          ))}
+
           <li className="page-item">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#" aria-label="Next">
+            <span
+              className={`page-link pointer ${
+                currentPage == pageCount ? "disabled" : ""
+              }`}
+              href="#"
+              aria-label="Next"
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
               <span aria-hidden="true">&laquo;</span>
-            </a>
+            </span>
           </li>
         </ul>
       </nav>
