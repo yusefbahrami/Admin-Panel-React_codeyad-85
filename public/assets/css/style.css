@@ -290,6 +290,14 @@ th {
   background: rgb(85, 84, 84);
 }
 
+#avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* sidebar end-------<<<<<<< */
 
 /* content start------->>>>>>> */

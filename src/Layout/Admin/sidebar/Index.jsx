@@ -15,7 +15,7 @@ const Index = () => {
       >
         <div className="p-0 m-0">
           <Avatar
-            name="قاسم بساکی"
+            name="علاءالدین"
             imagePath="../../../assets/images/avatar/user2.jpg"
             alt="Avatar"
           />
@@ -46,19 +46,19 @@ const Index = () => {
             title={"مدیریت برند ها"}
             icon={"fas fa-copyright"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/brands"}
           />
           <SidebarItem
             title={"مدیریت گارانتی ها"}
             icon={"fab fa-pagelines"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/guranties"}
           />
           <SidebarItem
             title={"مدیریت رنگ ها"}
             icon={"fas fa-palette"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/colors"}
           />
           <SidebarItem
             title={"مدیریت تخفیف ها"}
@@ -126,16 +126,6 @@ const Index = () => {
             customClass={""}
             targetPath={"/test"}
           />
-          {/* <!-- <li className="py-2 btn-group dropstart pe-4">
-                  <i className="ms-3 icon fas fa-check text-light"></i>
-                  <span className="hiddenable" data-bs-toggle="dropdown" aria-expanded="false">داشبورد</span>
-                  <ul className="dropdown-menu px-2 sidebar_submenu_list">
-                    <li className="d-none">اول</li>
-                    <li>اول</li>
-                    <li>دوم</li>
-                    <li>سوم</li>
-                  </ul>
-              </li> --> */}
         </div>
       </div>
     </section>
