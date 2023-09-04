@@ -7,6 +7,8 @@ import { Route, Routes } from "react-router-dom";
 import Colors from "./Colors/Colors";
 import Guranties from "./Guranties/Guranties";
 import Brands from "./Brands/Brands";
+import Discounts from "./Discounts/Discounts";
+import Carts from "./Carts/Carts";
 
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
@@ -22,6 +24,9 @@ const Content = () => {
         <Route path="/colors" element={<Colors />} />
         <Route path="/guranties" element={<Guranties />} />
         <Route path="/brands" element={<Brands />} />
+        <Route path="/discounts" element={<Discounts />} />
+
+        <Route path="/carts" element={<Carts />} />
 
         <Route path="/*" element={<Dashboard />} />
       </Routes>

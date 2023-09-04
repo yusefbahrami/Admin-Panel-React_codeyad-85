@@ -23,7 +23,7 @@ const Index = () => {
           <SidebarItem
             title={"داشبورد"}
             icon={"fas fa-tachometer-alt"}
-            customClass={"mt-2 active"}
+            customClass={"mt-2"}
             targetPath={"/"}
           />
 
@@ -64,7 +64,7 @@ const Index = () => {
             title={"مدیریت تخفیف ها"}
             icon={"fas fa-percentage"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/discounts"}
           />
 
           {/* <!-- =================================== --> */}
@@ -74,7 +74,7 @@ const Index = () => {
             title={"مدیریت سبد ها"}
             icon={"fas fa-shopping-basket"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/carts"}
           />
           <SidebarItem
             title={"مدیریت سفارشات"}
