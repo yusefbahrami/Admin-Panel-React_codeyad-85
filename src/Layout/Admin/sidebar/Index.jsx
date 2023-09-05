@@ -80,13 +80,13 @@ const Index = () => {
             title={"مدیریت سفارشات"}
             icon={"fas fa-luggage-cart"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/orders"}
           />
           <SidebarItem
             title={"مدیریت نحوه ارسال"}
             icon={"fas fa-truck-loading"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/deliveries"}
           />
 
           {/* <!-- =================================== --> */}
@@ -96,19 +96,19 @@ const Index = () => {
             title={"مشاهده کاربران"}
             icon={"fas fa-users"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/users"}
           />
           <SidebarItem
             title={"نقش ها"}
             icon={"fas fa-user-tag"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/roles"}
           />
           <SidebarItem
             title={"مجوز ها"}
             icon={"fas fa-shield-alt"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/permissions"}
           />
 
           {/* <!-- =================================== --> */}
@@ -118,13 +118,13 @@ const Index = () => {
             title={"سوال ها"}
             icon={"fas fa-question-circle"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/questions"}
           />
           <SidebarItem
             title={"نظرات"}
             icon={"fas fa-comment"}
             customClass={""}
-            targetPath={"/test"}
+            targetPath={"/comments"}
           />
         </div>
       </div>

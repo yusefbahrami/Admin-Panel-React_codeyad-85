@@ -1,14 +1,21 @@
 import React, { useContext } from "react";
+import { Route, Routes } from "react-router-dom";
+import { AdminContext } from "../Context/AdminLayoutContext";
 import Category from "./Category/Category";
 import Dashboard from "./Dashboard/Dashboard";
-import { AdminContext } from "../Context/AdminLayoutContext";
 import Product from "./Product/Product";
-import { Route, Routes } from "react-router-dom";
 import Colors from "./Colors/Colors";
 import Guranties from "./Guranties/Guranties";
 import Brands from "./Brands/Brands";
 import Discounts from "./Discounts/Discounts";
 import Carts from "./Carts/Carts";
+import Orders from "./Orders/Orders";
+import Deliveries from "./Deliveries/Deliveries";
+import Users from "./Users/Users";
+import Roles from "./Roles/Roles";
+import Permissions from "./Permissions/Permissions";
+import Comments from "./Comments/Comments";
+import Questions from "./Questions/Questions";
 
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
@@ -24,9 +31,15 @@ const Content = () => {
         <Route path="/colors" element={<Colors />} />
         <Route path="/guranties" element={<Guranties />} />
         <Route path="/brands" element={<Brands />} />
-        <Route path="/discounts" element={<Discounts />} />
-
         <Route path="/carts" element={<Carts />} />
+        <Route path="/discounts" element={<Discounts />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/deliveries" element={<Deliveries />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/roles" element={<Roles />} />
+        <Route path="/permissions" element={<Permissions />} />
+        <Route path="/comments" element={<Comments />} />
+        <Route path="/questions" element={<Questions />} />
 
         <Route path="/*" element={<Dashboard />} />
       </Routes>
