@@ -1,5 +1,5 @@
 import React from "react";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import AuthFormikControl from "../../Components/AuthForm/AuthFormikControl";
 import axios from "axios";
