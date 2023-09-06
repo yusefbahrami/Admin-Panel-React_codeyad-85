@@ -1,12 +1,14 @@
 import React from "react";
-import Index from "./Layout/Admin";
+import AdminLayout from "./Layout/Admin";
 import { BrowserRouter } from "react-router-dom";
+import AuthLayout from "./Layout/authLayout/AuthLayout";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Index />
+        <AuthLayout />
+        {/* <AdminLayout /> */}
       </BrowserRouter>
     </div>
   );
