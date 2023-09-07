@@ -20,7 +20,7 @@ const onSubmit = (values, navigate) => {
     .then((res) => {
       console.log(res);
       if (res.status == 200) {
-        localStorage.setItem("LoginToken", JSON.stringify(res.data.token));
+        localStorage.setItem("LoginToken", JSON.stringify(res.data));
         navigate("/");
       }
     });
