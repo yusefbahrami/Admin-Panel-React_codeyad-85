@@ -1,15 +1,13 @@
 import React from "react";
 import AdminLayout from "./Layout/Admin";
-import { BrowserRouter } from "react-router-dom";
-import AuthLayout from "./Layout/authLayout/AuthLayout";
+import { BrowserRouter, useLocation } from "react-router-dom";
+import AuthLayout from "./Layout/authLayout/AuthLayout_main";
 
 function App() {
+  const location = useLocation();
   return (
     <div className="App">
-      <BrowserRouter>
-        <AuthLayout />
-        {/* <AdminLayout /> */}
-      </BrowserRouter>
+      {location.pathname.includes("/auth") ? <AuthLayout /> : <AdminLayout />}
     </div>
   );
 }

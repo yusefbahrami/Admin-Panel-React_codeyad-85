@@ -7,7 +7,7 @@ const AuthLayout = () => {
     <div className="limiter">
       <div className="container-login100">
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/auth/login" element={<Login />} />
         </Routes>
       </div>
     </div>

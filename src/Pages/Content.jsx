@@ -41,7 +41,7 @@ const Content = () => {
         <Route path="/comments" element={<Comments />} />
         <Route path="/questions" element={<Questions />} />
 
-        <Route path="/*" element={<Dashboard />} />
+        <Route path="*" element={<Dashboard />} />
       </Routes>
     </section>
   );

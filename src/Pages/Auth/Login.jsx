@@ -3,13 +3,14 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import AuthFormikControl from "../../Components/AuthForm/AuthFormikControl";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   phone: "",
   password: "",
   remember: false,
 };
-const onSubmit = (values) => {
+const onSubmit = (values, navigate) => {
   console.log(values);
   axios
     .post("https://ecomadminapi.azhadev.ir/api/auth/login", {
@@ -18,6 +19,10 @@ const onSubmit = (values) => {
     })
     .then((res) => {
       console.log(res);
+      if (res.status == 200) {
+        localStorage.setItem("LoginToken", JSON.stringify(res.data.token));
+        navigate("/");
+      }
     });
 };
 const validationSchema = Yup.object({
@@ -29,12 +34,13 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <div className="limiter">
       <div className="container-login100">
         <Formik
           initialValues={initialValues}
-          onSubmit={onSubmit}
+          onSubmit={(values) => onSubmit(values, navigate)}
           validationSchema={validationSchema}
         >
           {(formik) => {
