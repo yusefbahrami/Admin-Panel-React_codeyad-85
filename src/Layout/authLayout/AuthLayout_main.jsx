@@ -10,12 +10,10 @@ const AuthLayout = () => {
       {loading ? (
         <h2 className="text-center">لطفا صبر کنید</h2>
       ) : !isLogin ? (
-        <div>
-          <div className="container-login100">
-            <Routes>
-              <Route path="/auth/login" element={<Login />} />
-            </Routes>
-          </div>
+        <div className="container-login100">
+          <Routes>
+            <Route path="/auth/login" element={<Login />} />
+          </Routes>
         </div>
       ) : (
         <Navigate to={"/"} />
