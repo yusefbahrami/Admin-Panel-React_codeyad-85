@@ -5,6 +5,7 @@ import AdminContextContainer from "../../Context/AdminLayoutContext";
 import Content from "../../Pages/Content";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+
 const Index = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -41,7 +42,7 @@ const Index = () => {
           <Sidebar />
         </div>
       ) : (
-        <Navigate to={"/login"} />
+        <Navigate to={"/auth/login"} />
       )}
     </AdminContextContainer>
   );

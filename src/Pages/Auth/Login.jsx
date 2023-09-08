@@ -18,7 +18,7 @@ const onSubmit = (values, navigate) => {
       remember: values.remember ? 1 : 0,
     })
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.status == 200) {
         localStorage.setItem("LoginToken", JSON.stringify(res.data));
         navigate("/");
