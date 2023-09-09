@@ -11,6 +11,7 @@ import "./assets/css/style.css";
 
 function App() {
   const location = useLocation();
+
   return (
     <div className="App">
       {location.pathname.includes("/auth") ? <AuthLayout /> : <AdminLayout />}
