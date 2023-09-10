@@ -12,8 +12,6 @@ const initialValues = {
   remember: false,
 };
 const onSubmit = (values, submitMethodes, navigate) => {
-  console.log(values);
-  console.log(submitMethodes);
   axios
     .post("https://ecomadminapi.azhadev.ir/api/auth/login", {
       ...values,
@@ -54,7 +52,6 @@ const Login = () => {
           validationSchema={validationSchema}
         >
           {(formik) => {
-            console.log(formik);
             return (
               <div className="wrap-login100">
                 <Form className="login100-form validate-form pos-relative d-flex flex-column align-items-center justify-content-center">

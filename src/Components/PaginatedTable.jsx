@@ -13,7 +13,7 @@ const PaginatedTable = ({
   const [pages, setPages] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [searchChar, setSearchChar] = useState("");
-  const [numOfPage, setNumOfPage] = useState(initData.length);
+  const [numOfPage, setNumOfPage] = useState(10);
 
   useEffect(() => {
     let pCount = Math.ceil(initData.length / numOfPage);
@@ -30,6 +30,13 @@ const PaginatedTable = ({
     let end = currentPage * numOfPage;
     setTableData(initData.slice(start, end));
   }, [currentPage, initData, numOfPage]);
+
+  useEffect(() => {
+    if (data != [] && data != initData) {
+      setInitData(data);
+      setCurrentPage(1);
+    }
+  }, [data]);
 
   useEffect(() => {
     setInitData(
@@ -72,7 +79,12 @@ const PaginatedTable = ({
             {dataInfo.map((item) => (
               <th key={item.field}>{item.title}</th>
             ))}
-            {additionalField ? <th>{additionalField.title}</th> : null}
+
+            {additionalField
+              ? additionalField.map((a, index) => (
+                  <th key={`${a.id}__${index}`}>{a.title}</th>
+                ))
+              : null}
           </tr>
         </thead>
         <tbody>
@@ -81,9 +93,12 @@ const PaginatedTable = ({
               {dataInfo.map((item) => (
                 <td key={`${item.field}_${data.id}`}>{data[item.field]}</td>
               ))}
-              {additionalField ? (
-                <td>{additionalField.elements(data.id)}</td>
-              ) : null}
+
+              {additionalField
+                ? additionalField.map((a, index) => (
+                    <td key={`${a.id}___${index}`}>{a.elements(data)}</td>
+                  ))
+                : null}
             </tr>
           ))}
         </tbody>

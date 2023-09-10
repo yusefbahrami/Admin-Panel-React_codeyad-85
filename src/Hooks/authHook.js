@@ -12,7 +12,6 @@ export const useIsLogin = () => {
           headers: { Authorization: `Bearer ${loginToken.token}` },
         })
         .then((res) => {
-          // console.log(res);
           setIsLogin(res.status == 200 ? true : false);
           setLoading(false);
         })
