@@ -1,15 +1,24 @@
 import React, { Fragment } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Actions = ({ rowData }) => {
+  const params = useParams();
+  const navigate = useNavigate();
   return (
     <Fragment>
-      {" "}
-      <i
-        className="fas fa-project-diagram text-info mx-1 hoverable_text pointer has_tooltip"
-        title="زیرمجموعه"
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-      ></i>
+      {!params.categoryId ? (
+        <i
+          className="fas fa-project-diagram text-info mx-1 hoverable_text pointer has_tooltip"
+          title="زیرمجموعه"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          onClick={() =>
+            navigate(`/categories/${rowData.id}`, {
+              state: { parentData: rowData },
+            })
+          }
+        ></i>
+      ) : null}
       <i
         className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
         title="ویرایش دسته"

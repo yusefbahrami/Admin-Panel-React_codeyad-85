@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PaginatedTable from "../../../Components/PaginatedTable";
 import AddCategory from "./AddCategory";
 import { getCategoriesService } from "../../../Services/category";
 import { Alert } from "../../../Utils/alerts";
 import ShowInMenu from "./tableAdditions/ShowInMenu";
 import Actions from "./tableAdditions/Actions";
+import { useLocation, useParams } from "react-router-dom";
 
 const CategoryTable = () => {
+  const params = useParams(); // get id from navigate in Actions.jsx
+  const location = useLocation(); // get parentData from state of navigate in Actions.jsx
   const [data, setData] = useState([]);
   const handleGetCategories = async () => {
     try {
-      const res = await getCategoriesService();
+      const res = await getCategoriesService(params.categoryId);
       if (res.status == 200) {
         setData(res.data.data);
       } else {
@@ -22,7 +25,7 @@ const CategoryTable = () => {
   };
   useEffect(() => {
     handleGetCategories();
-  }, []);
+  }, [params]);
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -47,15 +50,23 @@ const CategoryTable = () => {
     searchField: "title",
   };
   return (
-    <PaginatedTable
-      data={data}
-      dataInfo={dataInfo}
-      additionalField={additionalField}
-      searchParams={searchParams}
-      numOfPage={2}
-    >
-      <AddCategory />
-    </PaginatedTable>
+    <Fragment>
+      {location.state ? (
+        <h5 className="text-center">
+          <span>زیر گروه: </span>
+          <span className="text-info">{location.state.parentData.title}</span>
+        </h5>
+      ) : null}
+      <PaginatedTable
+        data={data}
+        dataInfo={dataInfo}
+        additionalField={additionalField}
+        searchParams={searchParams}
+        numOfPage={2}
+      >
+        <AddCategory />
+      </PaginatedTable>
+    </Fragment>
   );
 };
 export default CategoryTable;
