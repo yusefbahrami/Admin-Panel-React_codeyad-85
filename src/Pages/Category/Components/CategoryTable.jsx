@@ -5,7 +5,12 @@ import { getCategoriesService } from "../../../Services/category";
 import { Alert } from "../../../Utils/alerts";
 import ShowInMenu from "./tableAdditions/ShowInMenu";
 import Actions from "./tableAdditions/Actions";
-import { useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import jMoment from "moment-jalaali";
+import {
+  convertDateToJalaali,
+  dateToJalaali,
+} from "../../../Utils/convertDate";
 
 const CategoryTable = () => {
   const params = useParams(); // get id from navigate in Actions.jsx
@@ -31,10 +36,13 @@ const CategoryTable = () => {
     { field: "id", title: "#" },
     { field: "title", title: "عنوان محصول" },
     { field: "parent_id", title: "والد" },
-    { field: "created_at", title: "تارخ" },
   ];
 
   const additionalField = [
+    {
+      title: "تاریخ",
+      elements: (rowData) => convertDateToJalaali(rowData.created_at),
+    },
     {
       title: "نمایش در منو",
       elements: (rowData) => <ShowInMenu rowData={rowData} />,
@@ -51,21 +59,20 @@ const CategoryTable = () => {
   };
   return (
     <Fragment>
-      {location.state ? (
-        <h5 className="text-center">
-          <span>زیر گروه: </span>
-          <span className="text-info">{location.state.parentData.title}</span>
-        </h5>
-      ) : null}
-      <PaginatedTable
-        data={data}
-        dataInfo={dataInfo}
-        additionalField={additionalField}
-        searchParams={searchParams}
-        numOfPage={2}
-      >
-        <AddCategory />
-      </PaginatedTable>
+      <Outlet />
+      {data.length ? (
+        <PaginatedTable
+          data={data}
+          dataInfo={dataInfo}
+          additionalField={additionalField}
+          searchParams={searchParams}
+          numOfPage={2}
+        >
+          <AddCategory />
+        </PaginatedTable>
+      ) : (
+        <h5 className="text-center text-danger my-5">دیتایی یافت نشد!</h5>
+      )}
     </Fragment>
   );
 };
