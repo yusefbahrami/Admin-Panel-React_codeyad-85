@@ -281,6 +281,9 @@ th {
 .sidebar_menu_item.active {
   background: rgb(85, 84, 84);
 }
+.sidebar_item {
+  text-decoration: none;
+}
 
 /* sidebar end-------<<<<<<< */
 

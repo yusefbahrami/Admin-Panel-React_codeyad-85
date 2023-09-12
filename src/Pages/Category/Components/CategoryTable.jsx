@@ -6,11 +6,7 @@ import { Alert } from "../../../Utils/alerts";
 import ShowInMenu from "./tableAdditions/ShowInMenu";
 import Actions from "./tableAdditions/Actions";
 import { Outlet, useLocation, useParams } from "react-router-dom";
-import jMoment from "moment-jalaali";
-import {
-  convertDateToJalaali,
-  dateToJalaali,
-} from "../../../Utils/convertDate";
+import { convertDateToJalaali } from "../../../Utils/convertDate";
 
 const CategoryTable = () => {
   const params = useParams(); // get id from navigate in Actions.jsx
@@ -21,11 +17,12 @@ const CategoryTable = () => {
       const res = await getCategoriesService(params.categoryId);
       if (res.status == 200) {
         setData(res.data.data);
-      } else {
-        Alert("error", "مشکل!", res.data.message);
       }
+      // else {
+      //   Alert("error", "مشکل!", res.data.message);
+      // }
     } catch (error) {
-      Alert("error", "مشکلی در سمت سرور...!", error.message);
+      // Alert("error", "مشکلی در سمت سرور...!", error.message);
     }
   };
   useEffect(() => {
