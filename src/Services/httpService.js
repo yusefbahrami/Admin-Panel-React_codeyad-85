@@ -4,14 +4,12 @@ import { Alert } from "../Utils/alerts";
 
 axios.interceptors.response.use(
   (res) => {
-    // console.log(res);
     if (res.status != 200 && res.status != 201) {
       Alert("warning", "مشکل!", res.data.message);
     }
     return res;
   },
   (error) => {
-    // console.log(error);
     Alert("error", "مشکلی رخ داده است...!", error.response.status);
     return Promise.reject(error);
   }

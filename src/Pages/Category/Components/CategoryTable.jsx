@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import PaginatedTable from "../../../Components/PaginatedTable";
 import AddCategory from "./AddCategory";
 import { getCategoriesService } from "../../../Services/category";
-import { Alert } from "../../../Utils/alerts";
 import ShowInMenu from "./tableAdditions/ShowInMenu";
 import Actions from "./tableAdditions/Actions";
 import { Outlet, useLocation, useParams } from "react-router-dom";
@@ -12,22 +11,18 @@ const CategoryTable = () => {
   const params = useParams(); // get id from navigate in Actions.jsx
   const location = useLocation(); // get parentData from state of navigate in Actions.jsx
   const [data, setData] = useState([]);
+  const [forceRender, setForceRender] = useState(0);
   const handleGetCategories = async () => {
     try {
       const res = await getCategoriesService(params.categoryId);
       if (res.status == 200) {
         setData(res.data.data);
       }
-      // else {
-      //   Alert("error", "مشکل!", res.data.message);
-      // }
-    } catch (error) {
-      // Alert("error", "مشکلی در سمت سرور...!", error.message);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     handleGetCategories();
-  }, [params]);
+  }, [params, forceRender]);
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -65,7 +60,7 @@ const CategoryTable = () => {
           searchParams={searchParams}
           numOfPage={2}
         >
-          <AddCategory />
+          <AddCategory setForceRender={setForceRender} />
         </PaginatedTable>
       ) : (
         <h5 className="text-center text-danger my-5">دیتایی یافت نشد!</h5>

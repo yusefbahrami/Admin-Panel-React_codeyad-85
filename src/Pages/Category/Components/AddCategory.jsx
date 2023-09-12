@@ -3,7 +3,10 @@ import ModalsContainer from "../../../Components/ModalsContainer";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../../../Components/Form/FormikControl";
-import { getCategoriesService } from "../../../Services/category";
+import {
+  createNewCategoryService,
+  getCategoriesService,
+} from "../../../Services/category";
 import { Alert } from "../../../Utils/alerts";
 
 const initialValues = {
@@ -15,8 +18,24 @@ const initialValues = {
   show_in_menu: true,
 };
 
-const onSubmit = (values, actions) => {
-  // console.log(values);
+const onSubmit = async (values, actions, setForceRender) => {
+  try {
+    values = {
+      ...values,
+      is_active: values.is_active ? 1 : 0,
+      show_in_menu: values.show_in_menu ? 1 : 0,
+    };
+    const res = await createNewCategoryService(values);
+    console.log(res);
+    if (res.status == 201) {
+      Alert("success", "عملیات موفق!", res.data.message);
+      actions.resetForm();
+      setForceRender((last) => last + 1);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+  console.log(values);
 };
 
 const validationSchema = Yup.object({
@@ -31,28 +50,24 @@ const validationSchema = Yup.object({
     /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
     "فقط از حروف و اعداد استفاده شود"
   ),
-  image: Yup.mixed()
-    .test("filesize", "حجم فایل نمیتواند بیشتر از ۵۰۰کیلوبایت باشد!", (value) =>
-      !value ? true : value.size <= 500 * 1024
-    )
-    .test("format", "فرمت فایل باید jpg باشد!", (value) =>
-      !value ? true : value.type == "image/jpeg"
-    ),
+  // image: Yup.mixed()
+  //   .test("filesize", "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد", (value) =>
+  //  //   !value ? true : value.size <= 500 * 1024
+  //   )
+  //   .test("format", "فرمت فایل باید jpg باشد", (value) =>
+  //  //   !value ? true : value.type === "image/jpeg"
+  //   ),
   is_active: Yup.boolean(),
   show_in_menu: Yup.boolean(),
 });
-// const parents = [
-//   { id: 1, value: "test1" },
-//   { id: 2, value: "test2" },
-// ];
-const AddCategory = () => {
+
+const AddCategory = ({ setForceRender }) => {
   const [parents, setParents] = useState([]);
   const handleGetParentsCategories = async () => {
     try {
       const res = await getCategoriesService();
       if (res.status == 200) {
         const allParents = res.data.data;
-        console.log(allParents);
         setParents(
           allParents.map((p) => {
             return { id: p.id, value: p.title };
@@ -83,7 +98,9 @@ const AddCategory = () => {
       >
         <Formik
           initialValues={initialValues}
-          onSubmit={onSubmit}
+          onSubmit={(values, actions) =>
+            onSubmit(values, actions, setForceRender)
+          }
           validationSchema={validationSchema}
         >
           <Form>
@@ -131,9 +148,9 @@ const AddCategory = () => {
                       label="وضعیت فعال"
                     />
                   </div>
-                  <div className="form-check form-switch col-5 col-md-2">
+                  <div className="col-12 col-md-4 col-lg-3 mx-lg-5">
                     <FormikControl
-                      type="switch"
+                      control="switch"
                       name="show_in_menu"
                       label="نمایش در منو"
                     />
