@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import ModalsContainer from "../../../Components/ModalsContainer";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../../../Components/Form/FormikControl";
 import {
@@ -8,8 +8,8 @@ import {
   getCategoriesService,
 } from "../../../Services/category";
 import { Alert } from "../../../Utils/alerts";
-import SpinnerLoad from "../../../Components/SpinnerLoad";
 import SubmitButton from "../../../Components/Form/SubmitButton";
+import { useParams } from "react-router-dom";
 
 const initialValues = {
   parent_id: "",
@@ -65,7 +65,9 @@ const validationSchema = Yup.object({
 });
 
 const AddCategory = ({ setForceRender }) => {
+  const params = useParams();
   const [parents, setParents] = useState([]);
+  const [reInitialValues, setReInitialValues] = useState(null);
   const handleGetParentsCategories = async () => {
     try {
       const res = await getCategoriesService();
@@ -85,6 +87,16 @@ const AddCategory = ({ setForceRender }) => {
   useEffect(() => {
     handleGetParentsCategories();
   }, []);
+
+  useEffect(() => {
+    if (params.categoryId) {
+      setReInitialValues({ ...initialValues, parent_id: params.categoryId });
+    } else {
+      setReInitialValues(null);
+    }
+    console.log(params);
+  }, [params.categoryId]);
+
   return (
     <Fragment>
       <button
@@ -100,11 +112,12 @@ const AddCategory = ({ setForceRender }) => {
         title={"افزودن دسته جدید"}
       >
         <Formik
-          initialValues={initialValues}
+          initialValues={reInitialValues || initialValues}
           onSubmit={(values, actions) =>
             onSubmit(values, actions, setForceRender)
           }
           validationSchema={validationSchema}
+          enableReinitialize={true}
         >
           <Form>
             <div className="container">
