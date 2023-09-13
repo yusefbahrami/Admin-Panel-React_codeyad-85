@@ -4,6 +4,10 @@ export const getCategoriesService = (id = null) => {
   return httpService(`/admin/categories${id ? `?parent=${id}` : ""}`, "get");
 };
 
+export const getSingleCategoryService = (id) => {
+  return httpService(`/admin/categories/${id}`, "get");
+};
+
 export const createNewCategoryService = (data) => {
   let contentType = "application/json";
   if (data.image) {
@@ -18,4 +22,13 @@ export const createNewCategoryService = (data) => {
     data = formdata;
   }
   return httpService("/admin/categories", "post", data, contentType);
+};
+
+export const editCategoryService = (id, data) => {
+  return httpService(
+    `/admin/categories/${id}`,
+    "put",
+    data,
+    "application/json"
+  );
 };

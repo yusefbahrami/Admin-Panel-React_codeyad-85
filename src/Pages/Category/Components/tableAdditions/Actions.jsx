@@ -1,9 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { CategoryContext } from "../../../../Context/categoryContext";
 
 const Actions = ({ rowData }) => {
   const params = useParams();
   const navigate = useNavigate();
+  const { setEditId } = useContext(CategoryContext);
   return (
     <Fragment>
       {!params.categoryId ? (
@@ -25,6 +27,7 @@ const Actions = ({ rowData }) => {
         data-bs-toggle="modal"
         data-bs-placement="top"
         data-bs-target="#add_product_category_modal"
+        onClick={() => setEditId(rowData.id)}
       ></i>
       <i
         className="fas fa-plus text-success mx-1 hoverable_text pointer has_tooltip"
