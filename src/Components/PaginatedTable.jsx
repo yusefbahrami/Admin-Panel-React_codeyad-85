@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import SpinnerLoad from "./SpinnerLoad";
 
 const PaginatedTable = ({
   children,
@@ -6,6 +7,7 @@ const PaginatedTable = ({
   dataInfo,
   additionalField,
   searchParams,
+  loading,
 }) => {
   const [initData, setInitData] = useState(data);
   const [tableData, setTableData] = useState([]);
@@ -73,36 +75,42 @@ const PaginatedTable = ({
         </div>
       </div>
 
-      <table className="table table-responsive text-center table-hover table-bordered">
-        <thead className="table-secondary">
-          <tr>
-            {dataInfo.map((item) => (
-              <th key={item.field}>{item.title}</th>
-            ))}
-
-            {additionalField
-              ? additionalField.map((a, index) => (
-                  <th key={`${a.id}__${index}`}>{a.title}</th>
-                ))
-              : null}
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map((data) => (
-            <tr key={data.id}>
+      {loading ? (
+        <SpinnerLoad colorClass={"text-primary"} />
+      ) : data.length ? (
+        <table className="table table-responsive text-center table-hover table-bordered">
+          <thead className="table-secondary">
+            <tr>
               {dataInfo.map((item) => (
-                <td key={`${item.field}_${data.id}`}>{data[item.field]}</td>
+                <th key={item.field}>{item.title}</th>
               ))}
 
               {additionalField
                 ? additionalField.map((a, index) => (
-                    <td key={`${a.id}___${index}`}>{a.elements(data)}</td>
+                    <th key={`${a.id}__${index}`}>{a.title}</th>
                   ))
                 : null}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {tableData.map((data) => (
+              <tr key={data.id}>
+                {dataInfo.map((item) => (
+                  <td key={`${item.field}_${data.id}`}>{data[item.field]}</td>
+                ))}
+
+                {additionalField
+                  ? additionalField.map((a, index) => (
+                      <td key={`${a.id}___${index}`}>{a.elements(data)}</td>
+                    ))
+                  : null}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <h5 className="text-center text-danger my-5">دیتایی یافت نشد!</h5>
+      )}
 
       <div>
         <input

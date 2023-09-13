@@ -12,13 +12,18 @@ const CategoryTable = () => {
   const location = useLocation(); // get parentData from state of navigate in Actions.jsx
   const [data, setData] = useState([]);
   const [forceRender, setForceRender] = useState(0);
+  const [loading, setLoading] = useState(false);
   const handleGetCategories = async () => {
+    setLoading(true);
     try {
       const res = await getCategoriesService(params.categoryId);
       if (res.status == 200) {
         setData(res.data.data);
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     handleGetCategories();
@@ -52,19 +57,15 @@ const CategoryTable = () => {
   return (
     <Fragment>
       <Outlet />
-      {data.length ? (
-        <PaginatedTable
-          data={data}
-          dataInfo={dataInfo}
-          additionalField={additionalField}
-          searchParams={searchParams}
-          numOfPage={2}
-        >
-          <AddCategory setForceRender={setForceRender} />
-        </PaginatedTable>
-      ) : (
-        <h5 className="text-center text-danger my-5">دیتایی یافت نشد!</h5>
-      )}
+      <PaginatedTable
+        data={data}
+        dataInfo={dataInfo}
+        additionalField={additionalField}
+        searchParams={searchParams}
+        loading={loading}
+      >
+        <AddCategory setForceRender={setForceRender} />
+      </PaginatedTable>
     </Fragment>
   );
 };

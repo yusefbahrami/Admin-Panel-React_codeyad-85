@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import ModalsContainer from "../../../Components/ModalsContainer";
-import { Form, Formik } from "formik";
+import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../../../Components/Form/FormikControl";
 import {
@@ -8,6 +8,8 @@ import {
   getCategoriesService,
 } from "../../../Services/category";
 import { Alert } from "../../../Utils/alerts";
+import SpinnerLoad from "../../../Components/SpinnerLoad";
+import SubmitButton from "../../../Components/Form/SubmitButton";
 
 const initialValues = {
   parent_id: "",
@@ -26,16 +28,16 @@ const onSubmit = async (values, actions, setForceRender) => {
       show_in_menu: values.show_in_menu ? 1 : 0,
     };
     const res = await createNewCategoryService(values);
-    console.log(res);
+    // console.log(res);
     if (res.status == 201) {
       Alert("success", "عملیات موفق!", res.data.message);
       actions.resetForm();
       setForceRender((last) => last + 1);
     }
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
   }
-  console.log(values);
+  // console.log(values);
 };
 
 const validationSchema = Yup.object({
@@ -58,18 +60,6 @@ const validationSchema = Yup.object({
     .test("format", "فرمت فایل باید jpg باشد", (value) =>
       !value ? true : value.type === "image/jpeg"
     ),
-  // image: Yup.mixed()
-  //   .nullable() // Allow null values
-  //   .test(
-  //     "filesize",
-  //     "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد",
-  //     (value) => !value || !value.size || value.size <= 500 * 1024
-  //   )
-  //   .test(
-  //     "format",
-  //     "فرمت فایل باید jpg باشد",
-  //     (value) => !value || !value.type || value.type === "image/jpeg"
-  //   ),
   is_active: Yup.boolean(),
   show_in_menu: Yup.boolean(),
 });
@@ -170,7 +160,7 @@ const AddCategory = ({ setForceRender }) => {
                   </div>
                 </div>
                 <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                  <button className="btn btn-primary ">ذخیره</button>
+                  <SubmitButton text={"ذخیره"} />
                 </div>
               </div>
             </div>
