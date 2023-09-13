@@ -15,7 +15,7 @@ axios.interceptors.response.use(
   }
 );
 
-const httpService = (url, method, data = null) => {
+const httpService = (url, method, data = null, ContentType) => {
   const tokenInfo = JSON.parse(localStorage.getItem("LoginToken"));
   return axios({
     url: config.onlineApi + url,
@@ -23,7 +23,7 @@ const httpService = (url, method, data = null) => {
     data,
     headers: {
       Authorization: tokenInfo ? `Bearer ${tokenInfo.token}` : null,
-      "Content-Type": "application/json",
+      "Content-Type": ContentType,
     },
   });
 };

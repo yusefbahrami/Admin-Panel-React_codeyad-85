@@ -50,12 +50,25 @@ const validationSchema = Yup.object({
     /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
     "فقط از حروف و اعداد استفاده شود"
   ),
+  image: Yup.mixed()
+    .nullable()
+    .test("filesize", "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد", (value) =>
+      !value ? true : value.size <= 500 * 1024
+    )
+    .test("format", "فرمت فایل باید jpg باشد", (value) =>
+      !value ? true : value.type === "image/jpeg"
+    ),
   // image: Yup.mixed()
-  //   .test("filesize", "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد", (value) =>
-  //  //   !value ? true : value.size <= 500 * 1024
+  //   .nullable() // Allow null values
+  //   .test(
+  //     "filesize",
+  //     "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد",
+  //     (value) => !value || !value.size || value.size <= 500 * 1024
   //   )
-  //   .test("format", "فرمت فایل باید jpg باشد", (value) =>
-  //  //   !value ? true : value.type === "image/jpeg"
+  //   .test(
+  //     "format",
+  //     "فرمت فایل باید jpg باشد",
+  //     (value) => !value || !value.type || value.type === "image/jpeg"
   //   ),
   is_active: Yup.boolean(),
   show_in_menu: Yup.boolean(),

@@ -5,6 +5,7 @@ export const getCategoriesService = (id = null) => {
 };
 
 export const createNewCategoryService = (data) => {
+  let contentType = "application/json";
   if (data.image) {
     let formdata = new FormData();
     formdata.append("parent_id", data.parent_id);
@@ -13,7 +14,8 @@ export const createNewCategoryService = (data) => {
     formdata.append("image", data.image);
     formdata.append("is_active", data.is_active);
     formdata.append("show_in_menu", data.show_in_menu);
+    contentType = "multipart/form-data";
     data = formdata;
   }
-  return httpService("/admin/categories", "post", data);
+  return httpService("/admin/categories", "post", data, contentType);
 };
