@@ -29,12 +29,18 @@ const Actions = ({ rowData, handleDeleteCategory }) => {
         data-bs-target="#add_product_category_modal"
         onClick={() => setEditId(rowData.id)}
       ></i>
-      <i
-        className="fas fa-plus text-success mx-1 hoverable_text pointer has_tooltip"
-        title="افزودن ویژگی"
-        data-bs-toggle="modal"
-        data-bs-target="#add_product_category_attr_modal"
-      ></i>
+      {params.categoryId ? (
+        <i
+          className="fas fa-receipt text-success mx-1 hoverable_text pointer has_tooltip"
+          title="افزودن ویژگی"
+          data-bs-placement="top"
+          onClick={() =>
+            navigate(`/categories/${rowData.id}/attributes`, {
+              state: { categoryData: rowData },
+            })
+          }
+        ></i>
+      ) : null}
       <i
         className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
         title="حذف دسته"
