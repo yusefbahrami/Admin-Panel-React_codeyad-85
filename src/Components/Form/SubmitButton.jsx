@@ -6,7 +6,6 @@ const SubmitButton = ({ text }) => {
   return (
     <FastField>
       {({ form }) => {
-        // console.log(form);
         return (
           <button className="btn btn-primary ">
             {form.isSubmitting ? (
