@@ -2,7 +2,7 @@ import React, { Fragment, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CategoryContext } from "../../../../Context/categoryContext";
 
-const Actions = ({ rowData }) => {
+const Actions = ({ rowData, handleDeleteCategory }) => {
   const params = useParams();
   const navigate = useNavigate();
   const { setEditId } = useContext(CategoryContext);
@@ -40,6 +40,7 @@ const Actions = ({ rowData }) => {
         title="حذف دسته"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
+        onClick={() => handleDeleteCategory(rowData)}
       ></i>
     </Fragment>
   );

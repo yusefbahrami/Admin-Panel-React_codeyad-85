@@ -8,3 +8,13 @@ export const Alert = (icon, title, text) => {
     buttons: "متوجه شدم",
   });
 };
+
+export const Confirm = (title, text) => {
+  return swal({
+    title: title,
+    text: text,
+    icon: "warning",
+    buttons: ["خیر", "بله"],
+    dangerMode: true,
+  });
+};

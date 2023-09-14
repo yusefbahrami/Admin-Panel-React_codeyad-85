@@ -1,11 +1,15 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PaginatedTable from "../../../Components/PaginatedTable";
 import AddCategory from "./AddCategory";
-import { getCategoriesService } from "../../../Services/category";
+import {
+  deleteCategoryService,
+  getCategoriesService,
+} from "../../../Services/category";
 import ShowInMenu from "./tableAdditions/ShowInMenu";
 import Actions from "./tableAdditions/Actions";
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import { convertDateToJalaali } from "../../../Utils/convertDate";
+import { Alert, Confirm } from "../../../Utils/alerts";
 
 const CategoryTable = () => {
   const params = useParams(); // get id from navigate in Actions.jsx
@@ -25,6 +29,25 @@ const CategoryTable = () => {
       setLoading(false);
     }
   };
+
+  const handleDeleteCategory = async (rowData) => {
+    if (
+      await Confirm(
+        "حذف دسته‌بندی",
+        `آیا از حذف دسته‌بندی ${rowData.title} اطمینان دارید؟`
+      )
+    ) {
+      try {
+        const res = await deleteCategoryService(rowData.id);
+        // console.log(res);
+        if (res.status == 200) {
+          setData(data.filter((d) => d.id != rowData.id));
+          Alert("success", "عملیات موفق!", res.data.message);
+        }
+      } catch (error) {}
+    }
+  };
+
   useEffect(() => {
     handleGetCategories();
   }, [params, forceRender]);
@@ -46,7 +69,12 @@ const CategoryTable = () => {
     },
     {
       title: "عملیات",
-      elements: (rowData) => <Actions rowData={rowData} />,
+      elements: (rowData) => (
+        <Actions
+          rowData={rowData}
+          handleDeleteCategory={handleDeleteCategory}
+        />
+      ),
     },
   ];
   const searchParams = {

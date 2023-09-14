@@ -22,7 +22,7 @@ const AddCategory = ({ setForceRender }) => {
   const handleGetSingleCategory = async () => {
     try {
       const res = await getSingleCategoryService(editId);
-      console.log(res);
+      // console.log(res);
       if (res.status == 200) {
         const oldCategory = res.data.data;
         setEditCategory(oldCategory);
@@ -75,7 +75,6 @@ const AddCategory = ({ setForceRender }) => {
     } else {
       setReInitialValues(null);
     }
-    // console.log(params);
   }, [params.categoryId, editCategory]);
 
   return (

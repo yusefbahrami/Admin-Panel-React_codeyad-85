@@ -30,17 +30,13 @@ export const onSubmit = async (values, actions, setForceRender, editId) => {
       }
     } else {
       const res = await createNewCategoryService(values);
-      // console.log(res);
       if (res.status == 201) {
         Alert("success", "ثبت رکورد", "رکورد با موفقیت ثبت شد!");
         actions.resetForm();
         setForceRender((last) => last + 1);
       }
     }
-  } catch (error) {
-    // console.log(error.message);
-  }
-  // console.log(values);
+  } catch (error) {}
 };
 
 export const validationSchema = Yup.object({

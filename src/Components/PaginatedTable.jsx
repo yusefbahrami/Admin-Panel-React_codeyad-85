@@ -36,7 +36,7 @@ const PaginatedTable = ({
   useEffect(() => {
     if (data != [] && data != initData) {
       setInitData(data);
-      setCurrentPage(1);
+      // setCurrentPage(1);
     }
   }, [data]);
 

@@ -32,3 +32,12 @@ export const editCategoryService = (id, data) => {
     "application/json"
   );
 };
+
+export const deleteCategoryService = (id) => {
+  return httpService(
+    `/admin/categories/${id}`,
+    "delete",
+    null,
+    "application/json"
+  );
+};
