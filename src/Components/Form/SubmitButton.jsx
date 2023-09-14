@@ -7,7 +7,7 @@ const SubmitButton = ({ text }) => {
     <FastField>
       {({ form }) => {
         return (
-          <button className="btn btn-primary ">
+          <button className="btn btn-sm btn-primary ">
             {form.isSubmitting ? (
               <SpinnerLoad
                 colorClass={"text-white"}

@@ -17,3 +17,12 @@ export const addCategoryAttrService = (categoryId, data) => {
     "application/json"
   );
 };
+
+export const editCategoryAttrService = (attrId, data) => {
+  return httpService(
+    `/admin/categories/attributes/${attrId}`,
+    "put",
+    data,
+    "application/json"
+  );
+};

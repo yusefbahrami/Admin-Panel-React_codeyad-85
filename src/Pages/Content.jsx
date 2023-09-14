@@ -18,7 +18,7 @@ import Comments from "./Comments/Comments";
 import Questions from "./Questions/Questions";
 import Logout from "./Auth/Logout";
 import CategoryChildren from "./Category/Components/CategoryChildren";
-import AddAttributes from "./Category/Components/attrs/AddAttributes";
+import Attributes from "./Category/Components/attrs/Attributes";
 
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
@@ -34,7 +34,7 @@ const Content = () => {
         </Route>
         <Route
           path="/categories/:categoryId/attributes"
-          element={<AddAttributes />}
+          element={<Attributes />}
         />
         <Route path="/products" element={<Product />} />
         <Route path="/colors" element={<Colors />} />

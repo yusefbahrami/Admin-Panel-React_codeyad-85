@@ -1,6 +1,5 @@
 import React from "react";
 import Index from "./Layout/Admin";
-// import AdminLayout from "./Layout/Admin";
 import { useLocation } from "react-router-dom";
 import AuthLayout from "./Layout/authLayout/AuthLayout_main";
 import "./auth/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
@@ -15,7 +14,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* {location.pathname.includes("/auth") ? <AuthLayout /> : <AdminLayout />} */}
       {location.pathname.includes("/auth") ? <AuthLayout /> : <Index />}
     </div>
   );
