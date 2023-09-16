@@ -1,6 +1,11 @@
 import { Fragment } from "react";
 
-const AttrAction = ({ rowData, attrToEdit, setAttrToEdit }) => {
+const AttrAction = ({
+  rowData,
+  attrToEdit,
+  setAttrToEdit,
+  handleDeleteCategoryAttr,
+}) => {
   return (
     <Fragment>
       <i
@@ -11,6 +16,7 @@ const AttrAction = ({ rowData, attrToEdit, setAttrToEdit }) => {
       <i
         className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
         title="حذف ویژگی"
+        onClick={() => handleDeleteCategoryAttr(rowData)}
       ></i>
     </Fragment>
   );

@@ -26,3 +26,12 @@ export const editCategoryAttrService = (attrId, data) => {
     "application/json"
   );
 };
+
+export const deleteCategoryAttrService = (attrId) => {
+  return httpService(
+    `/admin/categories/attributes/${attrId}`,
+    "delete",
+    null,
+    "application/json"
+  );
+};
