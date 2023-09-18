@@ -17,3 +17,27 @@ export const addNewBrandService = (data) => {
   }
   return httpService("/admin/brands", "post", data, contentType);
 };
+
+export const editBrandService = (brandId, data) => {
+  let contentType = "application/json";
+
+  if (data.logo) {
+    let formdata = new FormData();
+    formdata.append("original_name", data.original_name);
+    formdata.append("persian_name", data.persian_name);
+    formdata.append("descriptions", data.descriptions);
+    formdata.append("logo", data.logo);
+    contentType = "multipart/form-data";
+    data = formdata;
+  }
+  return httpService(`/admin/brands/${brandId}`, "post", data, contentType);
+};
+
+export const deleteBrandService = (brandId) => {
+  return httpService(
+    `/admin/brands/${brandId}`,
+    "delete",
+    null,
+    "application/json"
+  );
+};

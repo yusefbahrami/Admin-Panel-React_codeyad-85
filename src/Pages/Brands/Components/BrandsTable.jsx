@@ -1,6 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { getAllBrandsService } from "../../../Services/brands";
-import { Alert } from "../../../Utils/alerts";
+import {
+  deleteBrandService,
+  getAllBrandsService,
+} from "../../../Services/brands";
+import { Alert, Confirm } from "../../../Utils/alerts";
 import { apiPath } from "../../../Services/httpService";
 import Actions from "./tableAdditional/Actions";
 import PaginatedTable from "../../../Components/PaginatedTable";
@@ -9,6 +12,7 @@ import AddBrand from "./addBrand";
 const BrandsTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [brandToEdit, setBrandToEdit] = useState(null);
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -25,7 +29,16 @@ const BrandsTable = () => {
           <img src={`${apiPath}/${rowData.logo}`} width={"40"} alt="logo" />
         ) : null,
     },
-    { title: "عملیات", elements: (rowData) => <Actions rowData={rowData} /> },
+    {
+      title: "عملیات",
+      elements: (rowData) => (
+        <Actions
+          rowData={rowData}
+          setBrandToEdit={setBrandToEdit}
+          handleDeleteBrandService={handleDeleteBrandService}
+        />
+      ),
+    },
   ];
 
   const searchParams = {
@@ -51,6 +64,21 @@ const BrandsTable = () => {
     }
   };
 
+  const handleDeleteBrandService = async (brand) => {
+    if (
+      await Confirm(
+        "هشدار!",
+        `آیا از حذف ${brand.original_name} اطمینان دارید؟`
+      )
+    ) {
+      const res = await deleteBrandService(brand.id);
+      if (res.status == 200) {
+        Alert("success", "عملیات موفق!", res.data.message);
+        setData((lastData) => lastData.filter((d) => d.id != brand.id));
+      }
+    }
+  };
+
   useEffect(() => {
     handleGetAllBrands();
   }, []);
@@ -64,7 +92,11 @@ const BrandsTable = () => {
         loading={loading}
         searchParams={searchParams}
       >
-        <AddBrand setData={setData} />
+        <AddBrand
+          setData={setData}
+          brandToEdit={brandToEdit}
+          setBrandToEdit={setBrandToEdit}
+        />
       </PaginatedTable>
     </Fragment>
   );
