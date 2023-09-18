@@ -1,66 +1,92 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from "react";
+import Actions from "./tableAdditional/Actions";
+import {
+  deleteGuranteeService,
+  getAllGurantiesService,
+} from "../../../Services/guranties";
+import { Alert, Confirm } from "../../../Utils/alerts";
+import PaginatedTable from "../../../Components/PaginatedTable";
+import AddGurantee from "./addGurantee";
 
-const GurantiesTable=()=>{
-return(<Fragment>
-          <table className="table table-responsive text-center table-hover table-bordered">
-        <thead className="table-secondary">
-          <tr>
-            <th>#</th>
-            <th>عنوان گارانتی</th>
-            <th>مدت گارانتی</th>
-            <th>توضیحات</th>
-            <th>عملیات</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>گارانتی 1</td>
-            <td>12 ماه</td>
-            <td> توضیحات اجمالی در مورد این گارانتی</td>
-            <td>
-              <i
-                className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                title="حذف گارانتی"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-              ></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <nav
-        aria-label="Page navigation example"
-        className="d-flex justify-content-center"
+const GurantiesTable = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [guranteeToEdit, setGuranteeToEdit] = useState(null);
+
+  const handleDeleteGurantee = async (gurantee) => {
+    try {
+      if (
+        await Confirm("هشدار!", `آیا از حذف ${gurantee.title} اطمینان دارید؟`)
+      ) {
+        const res = await deleteGuranteeService(gurantee.id);
+        // console.log(res);
+        if (res.status == 200) {
+          setData((lastData) => lastData.filter((d) => d.id != gurantee.id));
+          Alert("success", "عملیات موفق!", res.data.message);
+        }
+      }
+    } catch (error) {}
+  };
+  const handleGetAllGuranties = async () => {
+    setLoading(true);
+    try {
+      const res = await getAllGurantiesService();
+      // console.log(res);
+      if (res.status == 200) {
+        setData(res.data.data);
+      }
+    } catch (error) {
+      Alert("error", "خطا!", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const dataInfo = [
+    { field: "id", title: "#" },
+    { field: "title", title: "عنوان" },
+    { field: "descriptions", title: "توضیحات" },
+    { field: "length", title: "مدت گارانتی" },
+    { field: "length_unit", title: "واحد" },
+  ];
+
+  const additionalField = [
+    {
+      title: "عملیات",
+      elements: (rowData) => (
+        <Actions
+          rowData={rowData}
+          setGuaranteeToEdit={setGuranteeToEdit}
+          handleDeleteGuarantee={handleDeleteGurantee}
+        />
+      ),
+    },
+  ];
+  const searchParams = {
+    title: "جستجو",
+    placeholder: "قسمتی از عنوان را وارد کنید",
+    searchField: "title",
+  };
+
+  useEffect(() => {
+    handleGetAllGuranties();
+  }, []);
+  return (
+    <Fragment>
+      <PaginatedTable
+        data={data}
+        additionalField={additionalField}
+        dataInfo={dataInfo}
+        loading={loading}
+        searchParams={searchParams}
       >
-        <ul className="pagination dir_ltr">
-          <li className="page-item">
-            <a className="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-</Fragment>)
-}
-export default GurantiesTable
+        <AddGurantee
+          setData={setData}
+          guranteeToEdit={guranteeToEdit}
+          setGuranteeToEdit={setGuranteeToEdit}
+        />
+      </PaginatedTable>
+    </Fragment>
+  );
+};
+export default GurantiesTable;
