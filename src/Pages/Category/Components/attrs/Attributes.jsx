@@ -69,7 +69,6 @@ const Attributes = () => {
         )
       ) {
         const res = await deleteCategoryAttrService(attr.id);
-        // console.log(res);
         if (res.status == 200) {
           Alert("success", "عملیات موفق!", res.data.message);
           setData((lastdata) => [...lastdata].filter((d) => d.id != attr.id));

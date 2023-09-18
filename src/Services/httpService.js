@@ -2,9 +2,18 @@ import axios from "axios";
 import config from "./config.json";
 import { Alert } from "../Utils/alerts";
 
+export const apiPath = config.onlinePath;
+
 axios.interceptors.response.use(
   (res) => {
     if (res.status != 200 && res.status != 201) {
+      if (typeof res.data == "object") {
+        let message = "";
+        for (const key in res.data) {
+          message = message + `${key} : ${res.data[key]}`;
+        }
+        res.data.message = message;
+      }
       Alert("warning", "مشکل!", res.data.message);
     }
     return res;
@@ -18,7 +27,7 @@ axios.interceptors.response.use(
 const httpService = (url, method, data = null, ContentType) => {
   const tokenInfo = JSON.parse(localStorage.getItem("LoginToken"));
   return axios({
-    url: config.onlineApi + url,
+    url: `${apiPath}/api${url}`,
     method,
     data,
     headers: {
