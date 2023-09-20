@@ -52,7 +52,7 @@ const BrandsTable = () => {
     try {
       const res = await getAllBrandsService();
       if (res.status == 200) {
-        console.log(res);
+        // console.log(res);
         setData(res.data.data);
       } else {
         Alert("error", "مشکل!", res.data.message);

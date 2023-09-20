@@ -10,7 +10,7 @@ const Product = () => {
       className="manage_product_section main_section"
     >
       <h4 className="text-center my-3">مدیریت محصولات</h4>
-      <div className="row justify-content-between">
+      {/* <div className="row justify-content-between">
         <div className="col-10 col-md-6 col-lg-4">
           <div className="input-group mb-3 dir_ltr">
             <input
@@ -30,9 +30,9 @@ const Product = () => {
             <i className="fas fa-plus text-light"></i>
           </button>
         </div>
-      </div>
+      </div> */}
       <TableProduct />
-      <AddProduct />
+      {/* <AddProduct /> */}
     </div>
 
     //{/* <!-- #endregion content --> */}
