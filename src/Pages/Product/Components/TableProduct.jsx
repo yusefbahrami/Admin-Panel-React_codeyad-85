@@ -80,6 +80,7 @@ const TableProduct = () => {
   useEffect(() => {
     handleGetProducts(currentPage, countOnPage, searchChar);
   }, [currentPage]);
+
   return (
     <Fragment>
       <PaginatedDataTable
