@@ -8,3 +8,12 @@ export const getProductService = (page, countOnPage, searchChar) => {
     "application/json"
   );
 };
+
+export const deleteProductService = (productId) => {
+  return httpService(
+    `/admin/products/${productId}`,
+    "delete",
+    null,
+    "application/json"
+  );
+};
