@@ -25,7 +25,6 @@ const AddProduct = () => {
       setMainCategories("waiting");
       if (value > 0) {
         const res = await getCategoriesService(value);
-        // console.log(res);
         if (res.status == 200) {
           setMainCategories(
             res.data.data.map((d) => {
