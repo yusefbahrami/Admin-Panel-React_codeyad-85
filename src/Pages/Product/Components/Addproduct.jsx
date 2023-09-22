@@ -1,11 +1,10 @@
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { Fragment, useEffect, useState } from "react";
 import { initialValues, onSubmit, validationSchema } from "./core";
 import FormikControl from "../../../Components/Form/FormikControl";
 import { getCategoriesService } from "../../../Services/category";
 import SpinnerLoad from "../../../Components/SpinnerLoad";
-import { Alert } from "../../../Utils/alerts";
-import FormikError from "../../../Components/Form/FormikError";
+
 import PrevPageButton from "../../../Components/PrevPageButton";
 
 const AddProduct = () => {
@@ -45,38 +44,6 @@ const AddProduct = () => {
     }
   };
 
-  const handleSelectCategories = (value, formik) => {
-    setSelectedCategories((oldData) => {
-      if (value && oldData.findIndex((d) => d.id == value) == -1) {
-        const newData = [
-          ...oldData,
-          mainCategories.filter((d) => d.id == value)[0],
-        ];
-
-        const selectedIds = newData.map((nd) => nd.id);
-        // console.log(selectedIds.join("-"));
-        formik.setFieldValue("category_ids", selectedIds.join("-"));
-
-        return newData;
-      } else {
-        Alert("warning", "خطا!", "دسته مورد نظر، انتخاب شده است!");
-        return oldData;
-      }
-    });
-  };
-
-  const handleRemoveFromSelectedCategories = (categoryId, formik) => {
-    setSelectedCategories((oldData) => {
-      let newData = oldData.filter((d) => d.id != categoryId);
-
-      const selectedIds = newData.map((nd) => nd.id);
-      // console.log(selectedIds.join("-"));
-      formik.setFieldValue("category_ids", selectedIds.join("-"));
-
-      return newData;
-    });
-  };
-
   useEffect(() => {
     getAllParentCategoryies();
   }, []);
@@ -88,6 +55,7 @@ const AddProduct = () => {
         validationSchema={validationSchema}
       >
         {(formik) => {
+          // console.log(formik);
           return (
             <Form>
               <div className="container">
@@ -96,70 +64,31 @@ const AddProduct = () => {
                   <PrevPageButton />
                 </div>
                 <div className="row justify-content-center">
-                  {parentCategories.length > 0 ? (
-                    <FormikControl
-                      control="select"
-                      options={parentCategories}
-                      name="parentCats"
-                      label="دسته والد"
-                      firstItem="دسته مورد نظر را انتخاب کنید"
-                      className="col-12 col-md-6 col-lg-8"
-                      handleOnChange={handleSetMainCategories}
-                    />
-                  ) : null}
-
+                  <FormikControl
+                    control="select"
+                    options={parentCategories}
+                    name="parentCats"
+                    label="دسته والد"
+                    firstItem="دسته مورد نظر را انتخاب کنید"
+                    className="col-12 col-md-6 col-lg-8"
+                    handleOnChange={handleSetMainCategories}
+                  />
                   {mainCategories == "waiting" ? (
                     <SpinnerLoad isSmall={true} colorClass={"text-primary"} />
                   ) : mainCategories != null ? (
                     <FormikControl
-                      control="select"
+                      control="searchableSelect"
+                      // control="multiSelect"
                       options={mainCategories}
-                      name="mainCats"
-                      label="دسته والد"
+                      name="category_ids"
+                      label="دسته اصلی"
                       firstItem="دسته مورد نظر را انتخاب کنید"
                       className="col-12 col-md-6 col-lg-8"
-                      handleOnChange={handleSelectCategories}
+                      handleOnChange={handleSetMainCategories}
+                      resultType="string"
                     />
                   ) : null}
-                  <ErrorMessage name="category_ids" component={FormikError} />
 
-                  <div className="col-12 col-md-6 col-lg-8">
-                    {selectedCategories.map((category) => (
-                      <span className="chips_elem" key={category.id}>
-                        <i
-                          className="fas fa-times text-danger"
-                          onClick={() =>
-                            handleRemoveFromSelectedCategories(
-                              category.id,
-                              formik
-                            )
-                          }
-                        ></i>
-                        {category.value}
-                      </span>
-                    ))}
-                  </div>
-                  {/* <div className="col-12 col-md-6 col-lg-8">
-                <div className="input-group mb-2 dir_ltr">
-                  <select type="text" className="form-control">
-                    <option value="1">انتخاب دسته محصول</option>
-                    <option value="1">دسته شماره 1</option>
-                  </select>
-                  <span className="input-group-text w_6rem justify-content-center">
-                    دسته
-                  </span>
-                </div>
-                <div className="col-12 col-md-6 col-lg-8">
-                  <span className="chips_elem">
-                    <i className="fas fa-times text-danger"></i>
-                    دسته فلان
-                  </span>
-                  <span className="chips_elem">
-                    <i className="fas fa-times text-danger"></i>
-                    دسته فلان
-                  </span>
-                </div>
-              </div> */}
                   <div className="col-12 col-md-6 col-lg-8">
                     <div className="input-group my-3 dir_ltr">
                       <input

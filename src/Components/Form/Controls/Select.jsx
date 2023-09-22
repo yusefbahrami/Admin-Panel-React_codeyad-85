@@ -1,6 +1,6 @@
 import React from "react";
 import ControlContainer from "../ControlContainer";
-import { FastField } from "formik";
+import { Field } from "formik";
 
 const Select = ({
   options,
@@ -12,10 +12,11 @@ const Select = ({
 }) => {
   return (
     <ControlContainer name={name} className={className} label={label}>
-      <FastField>
+      <Field>
+        {/* uding Field insted FastField to rerender component when change the options */}
         {({ form }) => {
           return (
-            <FastField
+            <Field
               as="select"
               className="form-control"
               id={name}
@@ -32,10 +33,10 @@ const Select = ({
                   {o.value}
                 </option>
               ))}
-            </FastField>
+            </Field>
           );
         }}
-      </FastField>
+      </Field>
     </ControlContainer>
   );
 };

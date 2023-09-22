@@ -1,13 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PaginatedDataTable from "../../../Components/PaginatedDataTable";
-import AddProduct from "./Addproduct";
 import Actions from "./tableAddition/Actions";
 import {
   deleteProductService,
   getProductService,
 } from "../../../Services/products";
 import { Alert, Confirm } from "../../../Utils/alerts";
-import { Link } from "react-router-dom";
 import AddButtonLink from "../../../Components/AddButtonLink";
 
 const TableProduct = () => {
@@ -95,7 +93,6 @@ const TableProduct = () => {
         pageCount={pageCount}
         handleSearch={handleSearch}
       >
-        {/* <AddProduct /> */}
         <AddButtonLink href={"/products/add-product"} />
       </PaginatedDataTable>
     </Fragment>

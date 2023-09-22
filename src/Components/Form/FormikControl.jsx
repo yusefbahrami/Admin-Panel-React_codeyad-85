@@ -4,11 +4,17 @@ import Input from "./Controls/Input";
 import Textarea from "./Controls/Textarea";
 import Switch from "./Controls/Switch";
 import File from "./Controls/File";
+import MultiSelect from "./Controls/MultiSelect";
+import SearchableSelect from "./Controls/SearchableSelect";
 
 const FormikControl = (props) => {
   switch (props.control) {
     case "select":
       return <Select {...props} />;
+    case "multiSelect":
+      return <MultiSelect {...props} />;
+    case "searchableSelect":
+      return <SearchableSelect {...props} />;
     case "input":
       return <Input {...props} />;
     case "textarea":

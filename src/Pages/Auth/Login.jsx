@@ -27,7 +27,7 @@ const onSubmit = (values, submitMethodes, navigate) => {
       submitMethodes.setSubmitting(false);
     })
     .catch((error) => {
-      Alert("error", "متاسفم...!", error);
+      Alert("error", "متاسفم...!", error.message);
       submitMethodes.setSubmitting(false);
     });
 };
