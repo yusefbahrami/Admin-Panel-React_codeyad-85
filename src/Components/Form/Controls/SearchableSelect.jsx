@@ -1,5 +1,5 @@
 import { ErrorMessage, Field } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormikError from "../FormikError";
 
 const SearchableSelect = ({
@@ -46,6 +46,12 @@ const SearchableSelect = ({
     });
   };
 
+  useEffect(() => {
+    document.querySelector("body").addEventListener("click", () => {
+      setShowItems(false);
+    });
+  }, []);
+
   return (
     <Field>
       {({ form }) => {
@@ -53,7 +59,10 @@ const SearchableSelect = ({
           <div className={`col-12 ${className}`}>
             <div
               className="input-group mb-3 dir_ltr pointer"
-              onClick={() => setShowItems(!showItems)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowItems(!showItems);
+              }}
             >
               <div className="form-control" id={name + "-select"}>
                 {selectedItems.length > 0 ? (
@@ -99,8 +108,7 @@ const SearchableSelect = ({
                         className="multi_select_items pointer"
                         onClick={() => handleSelectItems(o.id, form)}
                       >
-                        {" "}
-                        {o.value}{" "}
+                        {o.value}
                       </li>
                     ))}
                   </ul>

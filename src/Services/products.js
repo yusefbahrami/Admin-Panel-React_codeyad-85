@@ -1,3 +1,4 @@
+import { convertDataToFormData } from "./convertData";
 import httpService from "./httpService";
 
 export const getProductService = (page, countOnPage, searchChar) => {
@@ -16,4 +17,13 @@ export const deleteProductService = (productId) => {
     null,
     "application/json"
   );
+};
+
+export const createNewProductService = (data) => {
+  let contentType = "application/json";
+  if (data.image) {
+    data = convertDataToFormData(data);
+    contentType = "multipart/form-data";
+  }
+  return httpService("/admin/products", "post", data, contentType);
 };

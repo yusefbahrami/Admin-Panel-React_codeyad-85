@@ -10,30 +10,46 @@ const Select = ({
   firstItem,
   handleOnChange,
 }) => {
+  const setOptions = () => {
+    return (
+      <>
+        <option value=""> {firstItem} </option>
+        {options.map((o) => (
+          <option key={o.id} value={o.id}>
+            {" "}
+            {o.value}{" "}
+          </option>
+        ))}
+      </>
+    );
+  };
   return (
     <ControlContainer name={name} className={className} label={label}>
       <Field>
-        {/* uding Field insted FastField to rerender component when change the options */}
         {({ form }) => {
           return (
-            <Field
-              as="select"
-              className="form-control"
-              id={name}
-              name={name}
-              onChange={
-                handleOnChange
-                  ? (e) => handleOnChange(e.target.value, form)
-                  : null
-              }
-            >
-              <option value="">{firstItem}</option>
-              {options.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.value}
-                </option>
-              ))}
-            </Field>
+            <>
+              {handleOnChange ? (
+                <Field
+                  as="select"
+                  className="form-control"
+                  id={name}
+                  name={name}
+                  onChange={(e) => handleOnChange(e.target.value, form)}
+                >
+                  {setOptions()}
+                </Field>
+              ) : (
+                <Field
+                  as="select"
+                  className="form-control"
+                  id={name}
+                  name={name}
+                >
+                  {setOptions()}
+                </Field>
+              )}
+            </>
           );
         }}
       </Field>
