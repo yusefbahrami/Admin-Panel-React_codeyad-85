@@ -24,6 +24,18 @@ const TableProduct = () => {
       elements: (rowData) =>
         rowData.categories.length > 0 ? rowData.categories[0].title : "-----",
     },
+    {
+      field: null,
+      title: "توضیحات محصول",
+      elements: (rowData) =>
+        rowData.categories.length > 0 ? (
+          <span
+            dangerouslySetInnerHTML={{ __html: rowData.descriptions }}
+          ></span>
+        ) : (
+          "-----"
+        ),
+    },
     { field: "title", title: "عنوان" },
     { field: "price", title: "قیمت" },
     { field: "stock", title: "موجودی" },

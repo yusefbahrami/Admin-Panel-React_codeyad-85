@@ -6,6 +6,7 @@ import Switch from "./Controls/Switch";
 import File from "./Controls/File";
 import MultiSelect from "./Controls/MultiSelect";
 import SearchableSelect from "./Controls/SearchableSelect";
+import CkEditor from "./Controls/CkEditor";
 
 const FormikControl = (props) => {
   switch (props.control) {
@@ -19,6 +20,8 @@ const FormikControl = (props) => {
       return <Input {...props} />;
     case "textarea":
       return <Textarea {...props} />;
+    case "ckeditor":
+      return <CkEditor {...props} />;
     case "switch":
       return <Switch {...props} />;
     case "file":
