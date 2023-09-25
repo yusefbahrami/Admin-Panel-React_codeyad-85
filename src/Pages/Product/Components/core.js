@@ -1,5 +1,8 @@
 import * as Yup from "yup";
-import { createNewProductService } from "../../../Services/products";
+import {
+  createNewProductService,
+  editProductService,
+} from "../../../Services/products";
 import { Alert } from "../../../Utils/alerts";
 
 export const initialValues = {
@@ -20,13 +23,19 @@ export const initialValues = {
   discount: null,
 };
 
-export const onSubmit = async (values, actions) => {
-  console.log(values);
-  const res = await createNewProductService(values);
-  console.log(res);
-  if (res.status == 201) {
-    Alert("success", "عملیات موفق!", res.data.message);
-    actions.resetForm();
+export const onSubmit = async (values, actions, productToEdit) => {
+  if (productToEdit) {
+    const res = await editProductService(productToEdit.id, values);
+    if (res.status == 200) {
+      Alert("success", "عملیات موفق!", res.data.message);
+    }
+  } else {
+    const res = await createNewProductService(values);
+
+    if (res.status == 201) {
+      Alert("success", "عملیات موفق!", res.data.message);
+      actions.resetForm();
+    }
   }
 };
 

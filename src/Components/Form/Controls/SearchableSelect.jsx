@@ -8,6 +8,7 @@ const SearchableSelect = ({
   name,
   label,
   className,
+  initialItems,
   firstItem,
 }) => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -45,6 +46,14 @@ const SearchableSelect = ({
       return newData;
     });
   };
+
+  useEffect(() => {
+    setSelectedItems(initialItems);
+  }, [initialItems]);
+
+  useEffect(() => {
+    setCopyOptions(options);
+  }, [options]);
 
   useEffect(() => {
     document.querySelector("body").addEventListener("click", () => {

@@ -27,3 +27,12 @@ export const createNewProductService = (data) => {
   }
   return httpService("/admin/products", "post", data, contentType);
 };
+
+export const editProductService = (productId, data) => {
+  return httpService(
+    `/admin/products/${productId}`,
+    "put",
+    data,
+    "application/json"
+  );
+};
