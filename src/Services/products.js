@@ -36,3 +36,14 @@ export const editProductService = (productId, data) => {
     "application/json"
   );
 };
+
+// ------ Attributes -------
+
+export const addProductAttrService = (productId, data) => {
+  return httpService(
+    `/admin/products/${productId}/add_attr`,
+    "post",
+    data,
+    "application/json"
+  );
+};

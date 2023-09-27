@@ -25,7 +25,7 @@ const CkEditor = ({ name, label, className, placeholder }) => {
                 form.setFieldValue(name, data);
               }}
               onBlur={(event, editor) => {
-                console.log("Blur.", editor);
+                // console.log("Blur.", editor);
               }}
               onFocus={(event, editor) => {
                 if (editor.getData() == `<p>${placeholder}</p>`) {

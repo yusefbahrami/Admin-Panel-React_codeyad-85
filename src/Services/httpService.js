@@ -2,6 +2,7 @@ import axios from "axios";
 import config from "./config.json";
 import { Alert } from "../Utils/alerts";
 
+// export const apiPath = config.offlinePath;
 export const apiPath = config.onlinePath;
 
 axios.interceptors.response.use(
