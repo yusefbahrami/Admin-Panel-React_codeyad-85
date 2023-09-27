@@ -4,10 +4,9 @@ import PrevPageButton from "../../../../Components/PrevPageButton";
 import SpinnerLoad from "../../../../Components/SpinnerLoad";
 import SubmitButton from "../../../../Components/Form/SubmitButton";
 import { useLocation } from "react-router-dom";
-import { getCategoryAttrService } from "../../../../Services/categoryAttr";
 import * as Yup from "yup";
 import FormikError from "../../../../Components/Form/FormikError";
-import { onSubmit } from "./core";
+import { initializingData, onSubmit } from "./core";
 
 const SetAttribute = () => {
   const location = useLocation();
@@ -18,40 +17,13 @@ const SetAttribute = () => {
   const [validationSchema, setValidationSchema] = useState({});
 
   const handleGetAttributes = async () => {
-    let attrVar = [];
-    let initials = {};
-    let rules = {};
+    const { attrVar, initials, rules } = await initializingData(
+      selectedProduct
+    );
 
-    Promise.all(
-      selectedProduct.categories.map(async (cat) => {
-        const res = await getCategoryAttrService(cat.id);
-        if (res.status == 200) {
-          attrVar = [
-            ...attrVar,
-            { groupTitle: cat.title, data: res.data.data },
-          ];
-
-          if (res.data.data.length > 0) {
-            for (const d of res.data.data) {
-              initials = { ...initials, [d.id]: "" };
-              rules = {
-                ...rules,
-                [d.id]: Yup.string().matches(
-                  /^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/,
-                  "فقط از حروف و اعداد استفاده شود"
-                ),
-              };
-            }
-          }
-        }
-      })
-    ).then(() => {
-      setAttrs(attrVar);
-      setInitialValues(initials);
-      setValidationSchema(
-        Object.keys(rules).length > 0 ? Yup.object(rules) : {}
-      );
-    });
+    setAttrs(attrVar);
+    setInitialValues(initials);
+    setValidationSchema(Yup.object(rules));
   };
 
   useEffect(() => {
