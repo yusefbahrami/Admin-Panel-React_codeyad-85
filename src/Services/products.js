@@ -47,3 +47,14 @@ export const addProductAttrService = (productId, data) => {
     "application/json"
   );
 };
+
+// -------- Image --------
+
+export const addProductImageService = (productId, data) => {
+  return httpService(
+    `/admin/products/${productId}/add_image`,
+    "post",
+    data,
+    "multipart/form-data"
+  );
+};
