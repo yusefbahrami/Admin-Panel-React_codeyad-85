@@ -58,3 +58,21 @@ export const addProductImageService = (productId, data) => {
     "multipart/form-data"
   );
 };
+
+export const deleteProductImageService = (imageId) => {
+  return httpService(
+    `/admin/products/gallery/${imageId}`,
+    "delete",
+    null,
+    "application/json"
+  );
+};
+
+export const setMainProductImageService = (imageId) => {
+  return httpService(
+    `/admin/products/gallery/set_main/${imageId}`,
+    "get",
+    null,
+    "application/json"
+  );
+};

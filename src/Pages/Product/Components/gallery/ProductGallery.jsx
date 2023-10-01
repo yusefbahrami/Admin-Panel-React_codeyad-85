@@ -3,8 +3,12 @@ import PrevPageButton from "../../../../Components/PrevPageButton";
 import SpinnerLoad from "../../../../Components/SpinnerLoad";
 import { apiPath } from "../../../../Services/httpService";
 import { useLocation } from "react-router-dom";
-import { addProductImageService } from "../../../../Services/products";
-import { Alert } from "../../../../Utils/alerts";
+import {
+  addProductImageService,
+  deleteProductImageService,
+  setMainProductImageService,
+} from "../../../../Services/products";
+import { Alert, Confirm } from "../../../../Utils/alerts";
 
 const ProductGallery = () => {
   const location = useLocation();
@@ -16,7 +20,6 @@ const ProductGallery = () => {
 
   const handleSelectImage = async (e) => {
     setError(null);
-    setLoading(true);
     const image = e.target.files[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -30,6 +33,7 @@ const ProductGallery = () => {
     if (image.size > 512000)
       return setError("حجم تصویر نباید بیشتر از 500 کیلوبایت باشد");
 
+    setLoading(true);
     const res = await addProductImageService(selectedProduct.id, formData);
     setLoading(false);
     if (res.status === 201) {
@@ -41,18 +45,50 @@ const ProductGallery = () => {
     }
   };
 
+  const handleDeleteImage = async (imageId) => {
+    if (await Confirm("حذف محصول!", `آیا از حذف تصویر اتمینان دارید؟`)) {
+      setLoading(true);
+      const res = await deleteProductImageService(imageId);
+      setLoading(false);
+      if (res.status == 200) {
+        setGallery((oldData) => oldData.filter((image) => image.id != imageId));
+        Alert("success", "عملیات موفق!", "تصویر با موفقیت حذف شد!");
+      }
+    }
+  };
+
+  const handleSetMainImage = async (imageId) => {
+    setLoading(true);
+    const res = await setMainProductImageService(imageId);
+    setLoading(false);
+    if (res.status == 200) {
+      setGallery((old) => {
+        let newGallery = old.map((img) => {
+          return { ...img, is_main: 0 };
+        });
+        const index = old.findIndex((i) => i.id == imageId);
+        newGallery[index].is_main = 1;
+        return newGallery;
+      });
+      Alert("success", "عملیات موفق!", "تغییرات با موفقیت اعمال شد!");
+    }
+  };
+
   return (
     <div className="container">
       <h4 className="text-center my-3">
-        {" "}
-        مدیریت گالری تصاویر:{" "}
-        <span className="text-primary">{selectedProduct.title}</span>{" "}
+        مدیریت گالری تصاویر:
+        <span className="text-primary">{selectedProduct.title}</span>
       </h4>
       <div className="text-left m-auto my-3">
         <PrevPageButton />
       </div>
 
       <div className="row justify-content-center">
+        <small className="text-secondary pb-3">
+          نکته: لطفا از تصاویر مربع(600×600) استفاده کنید با حد اکثر حجم 500
+          کیلوبایت
+        </small>
         {error ? (
           <small className="d-d-block text-right text-danger py-3">
             {error}
@@ -77,13 +113,15 @@ const ProductGallery = () => {
                       <i
                         className="fas fa-clipboard-check text-success pointer hoverable_text mx-2 font_1_2"
                         title="انتخاب به عنوان اصلی"
-                      >
-                        {" "}
-                      </i>
+                        onClick={() => {
+                          handleSetMainImage(g.id);
+                        }}
+                      ></i>
                     ) : null}
                     <i
                       className="fas fa-trash-alt text-danger pointer hoverable_text mx-2 font_1_2"
                       title="حذف این تصویر"
+                      onClick={() => handleDeleteImage(g.id)}
                     ></i>
                   </div>
                 </div>
