@@ -22,6 +22,7 @@ import Attributes from "./Category/Components/attrs/Attributes";
 import AddProduct from "./Product/Components/Addproduct";
 import SetAttribute from "./Product/Components/setAttr/SetAttribute";
 import ProductGallery from "./Product/Components/gallery/ProductGallery";
+import AddDiscount from "./Discounts/Components/addDiscount";
 
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
@@ -47,7 +48,9 @@ const Content = () => {
         <Route path="/guranties" element={<Guranties />} />
         <Route path="/brands" element={<Brands />} />
         <Route path="/carts" element={<Carts />} />
-        <Route path="/discounts" element={<Discounts />} />
+        <Route path="/discounts" element={<Discounts />}>
+          <Route path="add-discount-code" element={<AddDiscount />} />
+        </Route>
         <Route path="/orders" element={<Orders />} />
         <Route path="/deliveries" element={<Deliveries />} />
         <Route path="/users" element={<Users />} />

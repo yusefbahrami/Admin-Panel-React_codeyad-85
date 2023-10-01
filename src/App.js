@@ -8,6 +8,7 @@ import "./auth/css/util.css";
 import "./auth/css/main.css";
 import "./assets/css/bootstrap.min.css";
 import "./assets/css/style.css";
+import "./assets/css/animate.min.css";
 
 function App() {
   const location = useLocation();

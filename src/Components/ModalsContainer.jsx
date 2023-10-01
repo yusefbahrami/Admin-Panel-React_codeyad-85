@@ -1,9 +1,21 @@
 import React from "react";
 import { createPortal } from "react-dom";
 
-const ModalsContainer = ({ children, id, title, fullScreen }) => {
+const ModalsContainer = ({
+  children,
+  id,
+  title,
+  fullScreen,
+  className,
+  closeFunction,
+}) => {
   return createPortal(
-    <div className="modal fade" id={id} tabIndex="-1" aria-hidden="true">
+    <div
+      className={`modal fade ${className || ""}`}
+      id={id}
+      tabIndex="-1"
+      aria-hidden="true"
+    >
       <div className={`modal-dialog ${fullScreen ? "modal-fullscreen" : ""}`}>
         <div className="modal-content">
           <div className="modal-header">
@@ -15,6 +27,7 @@ const ModalsContainer = ({ children, id, title, fullScreen }) => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onClick={closeFunction || null}
             ></button>
           </div>
           <div className="modal-body">{children}</div>
@@ -23,6 +36,7 @@ const ModalsContainer = ({ children, id, title, fullScreen }) => {
               type="button"
               className="btn btn-secondary"
               data-bs-dismiss="modal"
+              onClick={closeFunction || null}
             >
               انصراف
             </button>

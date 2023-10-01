@@ -19,10 +19,8 @@ const BrandsTable = () => {
     { field: "original_name", title: "عنوان لاتین" },
     { field: "persian_name", title: "عنوان فارسی" },
     { field: "descriptions", title: "توضیحات" },
-  ];
-
-  const additionalField = [
     {
+      field: null,
       title: "لوگو",
       elements: (rowData) =>
         rowData.logo ? (
@@ -30,6 +28,7 @@ const BrandsTable = () => {
         ) : null,
     },
     {
+      field: null,
       title: "عملیات",
       elements: (rowData) => (
         <Actions
@@ -40,6 +39,26 @@ const BrandsTable = () => {
       ),
     },
   ];
+
+  // const additionalField = [
+  //   {
+  //     title: "لوگو",
+  //     elements: (rowData) =>
+  //       rowData.logo ? (
+  //         <img src={`${apiPath}/${rowData.logo}`} width={"40"} alt="logo" />
+  //       ) : null,
+  //   },
+  //   {
+  //     title: "عملیات",
+  //     elements: (rowData) => (
+  //       <Actions
+  //         rowData={rowData}
+  //         setBrandToEdit={setBrandToEdit}
+  //         handleDeleteBrandService={handleDeleteBrandService}
+  //       />
+  //     ),
+  //   },
+  // ];
 
   const searchParams = {
     title: "جستجو",
@@ -87,7 +106,7 @@ const BrandsTable = () => {
     <Fragment>
       <PaginatedTable
         data={data}
-        additionalField={additionalField}
+        // additionalField={additionalField}
         dataInfo={dataInfo}
         loading={loading}
         searchParams={searchParams}

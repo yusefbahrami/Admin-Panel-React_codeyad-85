@@ -5,7 +5,7 @@ const PaginatedTable = ({
   children,
   data,
   dataInfo,
-  additionalField,
+  // additionalField,
   searchParams,
   loading,
 }) => {
@@ -80,30 +80,52 @@ const PaginatedTable = ({
       ) : data.length ? (
         <table className="table table-responsive text-center table-hover table-bordered">
           <thead className="table-secondary">
-            <tr>
+            {/* <tr>
               {dataInfo.map((item) => (
-                <th key={item.field}>{item.title}</th>
+                <th key={`${item.field}__${item.title}`}>{item.title}</th>
               ))}
 
               {additionalField
                 ? additionalField.map((a, index) => (
-                    <th key={`${a.id}__${index}`}>{a.title}</th>
+                    <th key={`${a.id}_${a.title}_${index}`}>{a.title}</th>
                   ))
                 : null}
+            </tr> */}
+            <tr>
+              {dataInfo.map((i, index) => (
+                <th key={i.field || `notField__${index}`}>{i.title}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {tableData.map((data) => (
+            {/* {tableData.map((data) => (
               <tr key={data.id}>
                 {dataInfo.map((item) => (
-                  <td key={`${item.field}_${data.id}`}>{data[item.field]}</td>
+                  <td key={`${item.field}_${item.title}_${data.id}`}>
+                    {data[item.field]}
+                  </td>
                 ))}
 
                 {additionalField
                   ? additionalField.map((a, index) => (
-                      <td key={`${a.id}___${index}`}>{a.elements(data)}</td>
+                      <td key={`${a.id}_${a.title}__${index}`}>
+                        {a.elements(data)}
+                      </td>
                     ))
                   : null}
+              </tr>
+            ))} */}
+            {tableData.map((d) => (
+              <tr key={d.id}>
+                {dataInfo.map((i, index) =>
+                  i.field ? (
+                    <td key={i.field + "_" + d.id}>{d[i.field]}</td>
+                  ) : (
+                    <td key={d.id + "__" + i.id + "__" + index}>
+                      {i.elements(d)}
+                    </td>
+                  )
+                )}
               </tr>
             ))}
           </tbody>

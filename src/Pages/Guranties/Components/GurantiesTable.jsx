@@ -48,10 +48,8 @@ const GurantiesTable = () => {
     { field: "descriptions", title: "توضیحات" },
     { field: "length", title: "مدت گارانتی" },
     { field: "length_unit", title: "واحد" },
-  ];
-
-  const additionalField = [
     {
+      field: null,
       title: "عملیات",
       elements: (rowData) => (
         <Actions
@@ -62,6 +60,19 @@ const GurantiesTable = () => {
       ),
     },
   ];
+
+  // const additionalField = [
+  //   {
+  //     title: "عملیات",
+  //     elements: (rowData) => (
+  //       <Actions
+  //         rowData={rowData}
+  //         setGuaranteeToEdit={setGuranteeToEdit}
+  //         handleDeleteGuarantee={handleDeleteGurantee}
+  //       />
+  //     ),
+  //   },
+  // ];
   const searchParams = {
     title: "جستجو",
     placeholder: "قسمتی از عنوان را وارد کنید",
@@ -75,7 +86,7 @@ const GurantiesTable = () => {
     <Fragment>
       <PaginatedTable
         data={data}
-        additionalField={additionalField}
+        // additionalField={additionalField}
         dataInfo={dataInfo}
         loading={loading}
         searchParams={searchParams}
