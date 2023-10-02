@@ -80,17 +80,6 @@ const PaginatedTable = ({
       ) : data.length ? (
         <table className="table table-responsive text-center table-hover table-bordered">
           <thead className="table-secondary">
-            {/* <tr>
-              {dataInfo.map((item) => (
-                <th key={`${item.field}__${item.title}`}>{item.title}</th>
-              ))}
-
-              {additionalField
-                ? additionalField.map((a, index) => (
-                    <th key={`${a.id}_${a.title}_${index}`}>{a.title}</th>
-                  ))
-                : null}
-            </tr> */}
             <tr>
               {dataInfo.map((i, index) => (
                 <th key={i.field || `notField__${index}`}>{i.title}</th>
@@ -98,23 +87,6 @@ const PaginatedTable = ({
             </tr>
           </thead>
           <tbody>
-            {/* {tableData.map((data) => (
-              <tr key={data.id}>
-                {dataInfo.map((item) => (
-                  <td key={`${item.field}_${item.title}_${data.id}`}>
-                    {data[item.field]}
-                  </td>
-                ))}
-
-                {additionalField
-                  ? additionalField.map((a, index) => (
-                      <td key={`${a.id}_${a.title}__${index}`}>
-                        {a.elements(data)}
-                      </td>
-                    ))
-                  : null}
-              </tr>
-            ))} */}
             {tableData.map((d) => (
               <tr key={d.id}>
                 {dataInfo.map((i, index) =>

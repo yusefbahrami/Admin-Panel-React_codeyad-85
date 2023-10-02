@@ -76,3 +76,13 @@ export const setMainProductImageService = (imageId) => {
     "application/json"
   );
 };
+
+// -------- Title --------
+export const getAllProductsTitle = () => {
+  return httpService(
+    "/admin/products/all_titles",
+    "get",
+    null,
+    "application/json"
+  );
+};
