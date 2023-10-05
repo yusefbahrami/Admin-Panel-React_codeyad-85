@@ -1,4 +1,7 @@
 import * as Yup from "yup";
+import { convertFormDateToMiladi } from "../../../Utils/convertDate";
+import { adNewDiscountsService } from "../../../Services/discounts";
+import { Alert } from "../../../Utils/alerts";
 
 export const initialValues = {
   title: "",
@@ -9,11 +12,21 @@ export const initialValues = {
   product_ids: "",
 };
 
-export const onSubmit = (values, actions) => {
-  console.log(values);
+export const onSubmit = async (values, actions, setData) => {
+  values = {
+    ...values,
+    expire_at: convertFormDateToMiladi(values.expire_at),
+  };
+  // console.log(values);
+  const res = await adNewDiscountsService(values);
+  if (res.status == 201) {
+    setData((oldData) => [...oldData, res.data.data]);
+    Alert("success", "عملیات موفق!", res.data.message);
+    actions.resetForm();
+  }
 };
 
-export const validationSchema = Yup.object().shape({
+export const validationSchema = Yup.object({
   title: Yup.string()
     .required("لطفا این قسمت را پر کنید")
     .matches(
@@ -28,10 +41,34 @@ export const validationSchema = Yup.object().shape({
     .matches(/^[a-zA-Z0-9\s@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
   percent: Yup.number().required("لطفا این قسمت را پر کنید"),
   for_all: Yup.boolean(),
-  product_ids: Yup.string().when("for_all", {
-    is: false,
-    then: Yup.string()
-      .required("لطفا این قسمت را پر کنید")
-      .matches(/^[0-9\s-]+$/, "فقط ازاعداد و خط تیره استفاده شود"),
-  }),
+  product_ids: Yup.string()
+    .nullable()
+    .when("for_all", {
+      is: false,
+      then: Yup.string()
+        .required("لطفا این قسمت را پر کنید")
+        .matches(/^[0-9\s-]+$/, "فقط ازاعداد و خط تیره استفاده شود"),
+    }),
 });
+// export const validationSchema = Yup.object().shape({
+//   title: Yup.string()
+//     .required("لطفا این قسمت را پر کنید")
+//     .matches(
+//       /^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/,
+//       "فقط از حروف و اعداد استفاده شود"
+//     ),
+//   expire_at: Yup.string()
+//     .required("لطفا این قسمت را پر کنید")
+//     .matches(/^[0-9/\ \s-]+$/, "فقط ازاعداد و خط تیره استفاده شود"),
+//   code: Yup.string()
+//     .required("لطفا این قسمت را پر کنید")
+//     .matches(/^[a-zA-Z0-9\s@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
+//   percent: Yup.number().required("لطفا این قسمت را پر کنید"),
+//   for_all: Yup.boolean(),
+//   product_ids: Yup.string().when("for_all", {
+//     is: false,
+//     then: Yup.string()
+//       .required("لطفا این قسمت را پر کنید")
+//       .matches(/^[0-9\s-]+$/, "فقط ازاعداد و خط تیره استفاده شود"),
+//   }),
+// });
