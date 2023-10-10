@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Actions = () => {
+const Actions = ({ handleDeleteDiscount, rowData }) => {
+  const navigate = useNavigate();
   return (
     <Fragment>
       <i
@@ -8,6 +10,11 @@ const Actions = () => {
         title="ویرایش کد تخفیف"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
+        onClick={() =>
+          navigate("/discounts/add-discount-code", {
+            state: { discountToEdit: rowData },
+          })
+        }
       ></i>
 
       <i
@@ -15,6 +22,7 @@ const Actions = () => {
         title="حذف کد تخفیف"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
+        onClick={() => handleDeleteDiscount(rowData)}
       ></i>
     </Fragment>
   );

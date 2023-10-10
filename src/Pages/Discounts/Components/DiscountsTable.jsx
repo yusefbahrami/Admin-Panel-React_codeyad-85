@@ -3,8 +3,12 @@ import PaginatedTable from "../../../Components/PaginatedTable";
 import AddButtonLink from "../../../Components/AddButtonLink";
 import { convertDateToJalaali } from "../../../Utils/convertDate";
 import Actions from "./tableAdditions/Actions";
-import { getAllDiscountsService } from "../../../Services/discounts";
+import {
+  deleteDiscountService,
+  getAllDiscountsService,
+} from "../../../Services/discounts";
 import { Outlet } from "react-router-dom";
+import { Alert, Confirm } from "../../../Utils/alerts";
 
 const DiscountsTable = () => {
   const [data, setData] = useState([]);
@@ -33,7 +37,12 @@ const DiscountsTable = () => {
     {
       field: null,
       title: "عملیات",
-      elements: (rowData) => <Actions rowData={rowData} />,
+      elements: (rowData) => (
+        <Actions
+          rowData={rowData}
+          handleDeleteDiscount={handleDeleteDiscount}
+        />
+      ),
     },
   ];
 
@@ -51,6 +60,17 @@ const DiscountsTable = () => {
       setData(res.data.data);
     }
   };
+
+  const handleDeleteDiscount = async (discount) => {
+    if (await Confirm(discount.title, "آیا از حذف این آیتم اطمینان دارید؟")) {
+      const res = await deleteDiscountService(discount.id);
+      if (res.status == 200) {
+        Alert("success", "عملیات موفق", "آیتم با موفقیت حذف شد!");
+        setData((old) => old.filter((d) => d.id != discount.id));
+      }
+    }
+  };
+
   useEffect(() => {
     handleGetAllDiscounts();
   }, []);

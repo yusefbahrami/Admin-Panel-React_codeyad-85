@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import ModalsContainer from "../../../Components/ModalsContainer";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { Form, Formik } from "formik";
 import FormikControl from "../../../Components/Form/FormikControl";
 import { initialValues, onSubmit, validationSchema } from "./core";
 import SubmitButton from "../../../Components/Form/SubmitButton";
 import { getAllProductsTitle } from "../../../Services/products";
+import { convertDateToJalaali } from "../../../Utils/convertDate";
 
 const AddDiscount = () => {
   const navigate = useNavigate();
 
   const [allProducts, setAllProducts] = useState([]);
-  const [discountToEdit, setDiscountToEdit] = useState(null);
+  // const [discountToEdit, setDiscountToEdit] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const { setData } = useOutletContext();
+  const location = useLocation();
+  const discountToEdit = location.state?.discountToEdit;
 
   const [reInitialValues, setReInitialValues] = useState(null);
 
@@ -30,9 +33,9 @@ const AddDiscount = () => {
 
   const handleSetProductSelectBox = (formik) => {
     const idsArr = formik.values.product_ids.split("-").filter((id) => id);
-    const selectedProductArr = idsArr.map(
-      (id) => allProducts.filter((p) => p.id == id)[0]
-    );
+    const selectedProductArr = idsArr
+      .map((id) => allProducts.filter((p) => p.id == id)[0])
+      .filter((product) => product);
     console.log(selectedProductArr);
     return (
       <FormikControl
@@ -52,21 +55,43 @@ const AddDiscount = () => {
 
   useEffect(() => {
     handleGetAllProductsTitle();
+
+    if (discountToEdit) {
+      setSelectedProducts(
+        discountToEdit.products.map((p) => {
+          return { id: p.id, value: p.title };
+        })
+      );
+
+      const productIds = discountToEdit.products.map((p) => p.id).join("-");
+      setReInitialValues({
+        ...discountToEdit,
+        expire_at: convertDateToJalaali(
+          discountToEdit.expire_at,
+          "jD/jM/jYYYY"
+        ),
+        for_all: discountToEdit.for_all ? true : false,
+        produc_ids: productIds,
+      });
+    }
   }, []);
   return (
     <ModalsContainer
       className="show d-block animate__animated animate__fadeInDown animate__fast"
       id={"add_discount_modal"}
-      title={"افزودن کد تخفیف"}
+      title={discountToEdit ? `ویرایش کد تخفیف` : "افزودن کد تخفیف"}
       fullScreen={false}
       closeFunction={() => navigate(-1)}
     >
       <div className="container">
         <div className="row justify-content-center">
           <Formik
-            initialValues={initialValues}
-            onSubmit={(values, actions) => onSubmit(values, actions, setData)}
+            initialValues={reInitialValues || initialValues}
+            onSubmit={(values, actions) =>
+              onSubmit(values, actions, setData, discountToEdit)
+            }
             validationSchema={validationSchema}
+            enableReinitialize
           >
             {(formik) => {
               return (
@@ -97,6 +122,7 @@ const AddDiscount = () => {
                     formik={formik}
                     name="expire_at"
                     label="تاریخ انقضاء"
+                    initialDate={discountToEdit?.expire_at || undefined}
                     yearsLimit={{ from: 10, to: 10 }}
                   />
                   <div className="row mb-2">
@@ -106,7 +132,7 @@ const AddDiscount = () => {
                         name="for_all"
                         label="برای همه"
                       />
-                      {console.log(formik)}
+                      {/* {console.log(formik)} */}
                     </div>
                   </div>
                   {!formik.values.for_all
