@@ -20,7 +20,11 @@ axios.interceptors.response.use(
     return res;
   },
   (error) => {
-    Alert("error", "مشکلی رخ داده است...!", error.response.status);
+    Alert(
+      "error",
+      error.response.data?.message || "مشکلی رخ داده است...!",
+      error.response.status
+    );
     return Promise.reject(error);
   }
 );
