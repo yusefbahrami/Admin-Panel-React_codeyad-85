@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ModalsContainer from "../../../Components/ModalsContainer";
 import SubmitButton from "../../../Components/Form/SubmitButton";
 import FormikControl from "../../../Components/Form/FormikControl";
 import { Form, Formik } from "formik";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
+import { getAllPermissionsService } from "../../../Services/users";
+import { initialValues, onSubmit, validationSchema } from "./core";
 
 const AddRole = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const roleToEdit = location.state?.roleToEdit;
+  const { setData } = useOutletContext();
+  const [permissions, setPermissions] = useState([]);
+  const handleGetAllPermissions = async () => {
+    const res = await getAllPermissionsService();
+    if (res.status == 200) {
+      setPermissions(
+        res.data.data.map((p) => {
+          return { id: p.id, title: p.description };
+        })
+      );
+    }
+  };
+
+  useEffect(() => {
+    handleGetAllPermissions();
+  }, []);
   return (
     <ModalsContainer
       className="show d-block"
@@ -18,7 +36,11 @@ const AddRole = () => {
       closeFunction={() => navigate(-1)}
     >
       <div className="container">
-        <Formik>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
           <Form className="row justify-content-center">
             <FormikControl
               className="col-md-8"
@@ -35,6 +57,15 @@ const AddRole = () => {
               label="توضیحات نقش"
               placeholder="فقط از حروف فارسی و لاتین استفاده کنید"
             />
+
+            <FormikControl
+              className="col-md-8"
+              control="checkbox"
+              name="permissions_id"
+              label="دسترسی ها: "
+              options={permissions}
+            />
+
             <div className="btn_box text-center col-12 mt-4">
               <SubmitButton text={"ذخیره"} />
             </div>
