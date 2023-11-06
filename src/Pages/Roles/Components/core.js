@@ -11,7 +11,6 @@ export const initialValues = {
 export const onSubmit = async (values, actions, setData) => {
   const res = await addNewRoleService(values);
   if (res.status === 201) {
-    // Alert("انجام شد", res.data.message, "success");
     Alert("success", "عملیات موفق", res.data.message);
     setData((old) => [...old, res.data.data]);
   }
