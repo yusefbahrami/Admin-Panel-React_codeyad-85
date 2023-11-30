@@ -16,6 +16,17 @@ export const getSinglrRoleService = (roleId) => {
   return httpService(`/admin/roles/${roleId}`, "get");
 };
 
+export const getAllUsersService = () => {
+  return httpService("/admin/users", "get");
+};
+
+export const getAllPaginatedUsersService = (page, countOnPage, searchChar) => {
+  return httpService(
+    `/admin/users?page=${page}&count=${countOnPage}&searchChar=${searchChar}`,
+    "get"
+  );
+};
+
 export const editRoleService = (roleId, data) => {
   return httpService(`/admin/roles/${roleId}`, "put", data);
 };
