@@ -24,6 +24,7 @@ import SetAttribute from "./Product/Components/setAttr/SetAttribute";
 import ProductGallery from "./Product/Components/gallery/ProductGallery";
 import AddDiscount from "./Discounts/Components/addDiscount";
 import AddRole from "./Roles/Components/addRole";
+import AddUser from "./Users/Components/addUser";
 
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
@@ -54,7 +55,9 @@ const Content = () => {
         </Route>
         <Route path="/orders" element={<Orders />} />
         <Route path="/deliveries" element={<Deliveries />} />
-        <Route path="/users" element={<Users />} />
+        <Route path="/users" element={<Users />}>
+          <Route path="add-user" element={<AddUser />} />
+        </Route>
         <Route path="/roles" element={<Roles />}>
           <Route path="add-role" element={<AddRole />} />
         </Route>

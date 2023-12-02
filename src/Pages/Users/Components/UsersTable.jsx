@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import Actions from "../Components/tableAddition/Actions";
 import AddButtonLink from "../../../Components/AddButtonLink";
 import PaginatedDataTable from "../../../Components/PaginatedDataTable";
@@ -88,6 +89,7 @@ const UsersTable = () => {
       handleSearch={handleSearch}
     >
       <AddButtonLink href={"/users/add-user"} />
+      <Outlet />
     </PaginatedDataTable>
   );
 };
