@@ -5,10 +5,12 @@ import Actions from "../Components/tableAddition/Actions";
 import AddButtonLink from "../../../Components/AddButtonLink";
 import PaginatedDataTable from "../../../Components/PaginatedDataTable";
 import {
+  deleteUserService,
   getAllPaginatedUsersService,
   getAllUsersService,
 } from "../../../Services/users";
 import Roles from "./tableAddition/Roles";
+import { Alert, Confirm } from "../../../Utils/alerts";
 
 const UsersTable = () => {
   const [data, setData] = useState([]);
@@ -71,14 +73,16 @@ const UsersTable = () => {
     handleGetUsers(1, countOnPage, char);
   };
 
-  const handleDeleteUser = async (product) => {
-    // if (await Confirm("حذف کاربر",`آیا از حذف ${product.title} اطمینان دارید؟`)) {
-    //   const res = await deleteProductService(product.id);
-    //   if (res.status === 200) {
-    //     Alert("انجام شد", res.data.message, "success");
-    //     handleGetProducts(currentPage, countOnPage, searchChar)
-    //   }
-    // }
+  const handleDeleteUser = async (user) => {
+    if (
+      await Confirm("حذف کاربر", `آیا از حذف ${user.user_name} اطمینان دارید؟`)
+    ) {
+      const res = await deleteUserService(user.id);
+      if (res.status === 200) {
+        Alert("success", "انجام شد", res.data.message);
+        handleGetUsers(currentPage, countOnPage, searchChar);
+      }
+    }
   };
 
   useEffect(() => {

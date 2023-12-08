@@ -68,6 +68,7 @@ const AddUser = () => {
         phone: userToEdit.phone || "",
         email: userToEdit.email || "",
         gender: userToEdit.gender || 1,
+        isEditing: true,
       });
     }
   }, [userToEdit]);

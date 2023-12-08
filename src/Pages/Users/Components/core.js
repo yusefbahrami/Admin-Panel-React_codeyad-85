@@ -26,7 +26,12 @@ export const onSubmit = async (values, actions, setData, userId) => {
   if (userId) {
     const res = await editUserService(userId, values);
     if (res.status == 200) {
-      setData((oldData) => [...oldData, res.data.data]);
+      setData((oldData) => {
+        let newData = [...oldData];
+        const index = newData.findIndex((d) => d.id == userId);
+        newData[index] = res.data.data;
+        return newData;
+      });
       Alert("success", "عملیات موفق", res.data.message);
       actions.resetForm();
     }
@@ -55,12 +60,19 @@ export const validationSchema = Yup.object().shape({
     /^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/,
     "فقط از حروف و اعداد استفاده شود"
   ),
-  password: Yup.string()
-    .required("لطفا این قسمت را پر کنید")
-    .matches(
+  password: Yup.string().when("isEditing", {
+    is: true,
+    then: Yup.string().matches(
       /^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/,
       "فقط از حروف و اعداد استفاده شود"
     ),
+    otherwise: Yup.string()
+      .required("لطفا این قسمت را پر کنید")
+      .matches(
+        /^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/,
+        "فقط از حروف و اعداد استفاده شود"
+      ),
+  }),
   phone: Yup.number()
     .typeError("فقط عدد وارد کنید")
     .required("لطفا این قسمت را پر کنید"),

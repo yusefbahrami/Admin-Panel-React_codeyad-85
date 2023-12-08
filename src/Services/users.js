@@ -46,6 +46,15 @@ export const deleteRoleService = (roleId) => {
   return httpService(`/admin/roles/${roleId}`, "delete");
 };
 
+export const deleteUserService = (userId) => {
+  return httpService(
+    `/admin/users/${userId}`,
+    "delete",
+    null,
+    "application/json"
+  );
+};
+
 export const editRolePermissionsService = (roleId, data) => {
   return httpService(`/admin/roles/${roleId}/permissions`, "put", data);
 };
