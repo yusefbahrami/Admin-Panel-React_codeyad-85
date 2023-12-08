@@ -8,6 +8,7 @@ import {
   getAllPaginatedUsersService,
   getAllUsersService,
 } from "../../../Services/users";
+import Roles from "./tableAddition/Roles";
 
 const UsersTable = () => {
   const [data, setData] = useState([]);
@@ -25,6 +26,13 @@ const UsersTable = () => {
       title: "نام",
       elements: (rowData) =>
         `${rowData.first_name || ""} ${rowData.last_name || ""}`,
+    },
+    {
+      field: null,
+      title: "نقش",
+      elements: (rowData) => {
+        <Roles rowData={rowData} />;
+      },
     },
     { field: "phone", title: "شماره تلفن" },
     { field: "email", title: "ایمیل" },
@@ -50,7 +58,7 @@ const UsersTable = () => {
     setLoading(true);
     // const res = await getAllUsersService();
     const res = await getAllPaginatedUsersService(page, count, char);
-    console.log(res);
+    // console.log(res);
     res && setLoading(false);
     if (res.status === 200) {
       setData(res.data.data.data);
@@ -89,7 +97,7 @@ const UsersTable = () => {
       handleSearch={handleSearch}
     >
       <AddButtonLink href={"/users/add-user"} />
-      <Outlet />
+      <Outlet context={{ setData }} />
     </PaginatedDataTable>
   );
 };

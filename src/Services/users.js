@@ -12,8 +12,16 @@ export const addNewRoleService = (data) => {
   return httpService("/admin/roles", "post", data, "application/json");
 };
 
+export const addNewUserService = (data) => {
+  return httpService("/admin/users", "post", data, "application/json");
+};
+
 export const getSinglrRoleService = (roleId) => {
   return httpService(`/admin/roles/${roleId}`, "get");
+};
+
+export const getSingleUserService = (userId) => {
+  return httpService(`/admin/users/${userId}`, "get", null, "application/json");
 };
 
 export const getAllUsersService = () => {
@@ -31,6 +39,9 @@ export const editRoleService = (roleId, data) => {
   return httpService(`/admin/roles/${roleId}`, "put", data);
 };
 
+export const editUserService = (userId, data) => {
+  return httpService(`/admin/users/${userId}`, "put", data, "application/json");
+};
 export const deleteRoleService = (roleId) => {
   return httpService(`/admin/roles/${roleId}`, "delete");
 };
