@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AdminContext } from "../Context/AdminLayoutContext";
+import { useSelector } from "react-redux";
 import Category from "./Category/Category";
 import Dashboard from "./Dashboard/Dashboard";
 import Product from "./Product/Product";
@@ -28,12 +29,24 @@ import AddUser from "./Users/Components/addUser";
 
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
+
+  const user = useSelector((state) => state.userReducer.data);
+  const roles = user.roles;
+  let permissions = [];
+  for (const role of roles) {
+    permissions = [...permissions, role];
+  }
+  // console.log(permissions);
+  const hasPermission = (permission) => {
+    return permissions.findIndex((p) => p.title.includes(permission)) > -1;
+  };
+
   return (
     <section
       id="content_section"
       className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : ""}`}
     >
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/categories" element={<Category />}>
           <Route path=":categoryId" element={<CategoryChildren />} />
@@ -67,6 +80,49 @@ const Content = () => {
         <Route path="/logout" element={<Logout />} />
 
         <Route path="/*" element={<Dashboard />} />
+      </Routes> */}
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        {hasPermission("read_categories") && (
+          <Route path="/categories" element={<Category />}>
+            <Route path=":categoryId" element={<CategoryChildren />} />
+          </Route>
+        )}
+        {hasPermission("read_category_attrs") && (
+          <Route
+            path="/categories/:categoryId/attributes"
+            element={<Attributes />}
+          />
+        )}
+        {hasPermission("read_products") && (
+          <Route path="/products" element={<Product />} />
+        )}
+        <Route path="/products/add-product" element={<AddProduct />} />
+        <Route path="/products/set-attr" element={<SetAttribute />} />
+        <Route path="/products/gallery" element={<ProductGallery />} />
+        <Route path="/colors" element={<Colors />} />
+        <Route path="/guranties" element={<Guranties />} />
+        <Route path="/brands" element={<Brands />} />
+        <Route path="/discounts" element={<Discounts />}>
+          <Route path="add-discount-code" element={<AddDiscount />} />
+        </Route>
+        <Route path="/carts" element={<Carts />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/deliveries" element={<Deliveries />} />
+
+        <Route path="/users" element={<Users />}>
+          <Route path="add-user" element={<AddUser />} />
+        </Route>
+
+        <Route path="/roles" element={<Roles />}>
+          <Route path="add-role" element={<AddRole />} />
+        </Route>
+        <Route path="/permissions" element={<Permissions />} />
+        <Route path="/questions" element={<Questions />} />
+        <Route path="/comments" element={<Comments />} />
+        <Route path="/logout" element={<Logout />} />
+
+        <Route path="*" element={<Dashboard />} />
       </Routes>
     </section>
   );

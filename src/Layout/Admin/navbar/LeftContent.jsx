@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const LeftContent = () => {
   const user = useSelector((state) => state.userReducer.data);
-  console.log(user);
+  // console.log(user);
   return (
     <div className="left_content d-flex flex-row-reverse">
       <i
