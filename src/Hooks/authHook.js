@@ -1,9 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  receiveRolesError,
+  receiveRolesRequest,
+} from "../Redux/roles/rolesActions";
 
 export const useIsLogin = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   useEffect(() => {
     const loginToken = JSON.parse(localStorage.getItem("LoginToken"));
     if (loginToken) {
@@ -13,10 +19,12 @@ export const useIsLogin = () => {
         })
         .then((res) => {
           setIsLogin(res.status == 200 ? true : false);
+          dispatch(receiveRolesRequest(res.data.roles));
           setLoading(false);
         })
         .catch((err) => {
           localStorage.removeItem("LoginToken");
+          // dispatch(receiveRolesError(err.message));
           setIsLogin(false);
           setLoading(false);
         });
