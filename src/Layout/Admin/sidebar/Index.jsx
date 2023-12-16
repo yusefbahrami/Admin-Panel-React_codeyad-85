@@ -3,9 +3,12 @@ import { AdminContext } from "../../../Context/AdminLayoutContext";
 import Avatar from "./Components/Avatar";
 import SidebarGroupTitle from "./Components/SidebarGroupTitle";
 import SidebarItem from "./Components/SidebarItem";
+import { useSelector } from "react-redux";
 
 const Index = () => {
   const { showSidebar } = useContext(AdminContext);
+  const user = useSelector((state) => state.userReducer.data);
+
   return (
     <section id="sidebar_section">
       <div
@@ -15,8 +18,14 @@ const Index = () => {
       >
         <div className="p-0 m-0">
           <Avatar
-            name="علاءالدین"
-            imagePath="../../../assets/images/avatar/user2.jpg"
+            name={
+              user.first_name && user.last_name
+                ? `${user.first_name} ${user.last_name}`
+                : `${user.user_name}`
+            }
+            imagePath={
+              user.image || "../../../assets/images/avatar/user-128.png"
+            }
             alt="Avatar"
           />
 

@@ -1,11 +1,11 @@
 // import { createStore, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import rolesReducer from "./roles/rolesReducer";
+import userReducer from "./user/userReducer";
 
 // const store = createStore(rolesReducer, applyMiddleware(thunk));
 const store = configureStore({
   reducer: {
-    rolesReducer,
+    userReducer,
   },
   //   middleware:[thunk]
 });

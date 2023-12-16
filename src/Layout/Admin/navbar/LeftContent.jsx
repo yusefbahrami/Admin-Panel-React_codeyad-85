@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const LeftContent = () => {
+  const user = useSelector((state) => state.userReducer.data);
+  console.log(user);
   return (
     <div className="left_content d-flex flex-row-reverse">
       <i
@@ -15,7 +18,11 @@ const LeftContent = () => {
         aria-labelledby="dropdownMenuButton1"
       >
         <li className="my-2">
-          <a className="dropdown-item d-block text-center">قاسم بساکی</a>
+          <a className="dropdown-item d-block text-center">
+          {user.first_name && user.last_name
+              ? `${user.first_name} ${user.last_name}`
+              : `${user.user_name}`}
+          </a>
         </li>
         <li className="my-2 d-flex justify-content-center align-items-center px-2">
           <i className="fas fa-tachometer-alt"></i>

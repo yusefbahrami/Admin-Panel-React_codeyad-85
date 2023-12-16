@@ -1,10 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  receiveRolesError,
-  receiveRolesRequest,
-} from "../Redux/roles/rolesActions";
+import { receiveUserRequest } from "../Redux/user/userActions";
 
 export const useIsLogin = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -19,7 +16,7 @@ export const useIsLogin = () => {
         })
         .then((res) => {
           setIsLogin(res.status == 200 ? true : false);
-          dispatch(receiveRolesRequest(res.data.roles));
+          dispatch(receiveUserRequest(res.data));
           setLoading(false);
         })
         .catch((err) => {
