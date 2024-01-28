@@ -32,13 +32,13 @@ import PermissionsComponent from "../Components/PermissionsComponent";
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
 
-  // const user = useSelector((state) => state.userReducer.data);
-  // const roles = user.roles;
-  // let permissions = [];
-  // for (const role of roles) {
-  //   permissions = [...permissions, role];
-  // }
-  // // console.log(permissions);
+  const user = useSelector((state) => state.userReducer.data);
+  const roles = user.roles;
+  let permissions = [];
+  for (const role of roles) {
+    permissions = [...permissions, role];
+  }
+  // console.log(permissions);
   // const hasPermission = (permission) => {
   //   return permissions.findIndex((p) => p.title.includes(permission)) > -1;
   // };
