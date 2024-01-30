@@ -39,6 +39,7 @@ const Content = () => {
     permissions = [...permissions, role];
   }
   // console.log(permissions);
+  // console.log(roles);
   // const hasPermission = (permission) => {
   //   return permissions.findIndex((p) => p.title.includes(permission)) > -1;
   // };
@@ -52,7 +53,7 @@ const Content = () => {
       id="content_section"
       className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : ""}`}
     >
-      {/* <Routes>
+      {/* <Routes> 
         <Route path="/" element={<Dashboard />} />
         <Route path="/categories" element={<Category />}>
           <Route path=":categoryId" element={<CategoryChildren />} />
