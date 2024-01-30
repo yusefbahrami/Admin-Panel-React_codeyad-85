@@ -7,6 +7,7 @@ import {
 } from "../../../Services/products";
 import { Alert, Confirm } from "../../../Utils/alerts";
 import AddButtonLink from "../../../Components/AddButtonLink";
+import { useHasPermission } from "../../../Hooks/permissionsHook";
 
 const TableProduct = () => {
   const [data, setData] = useState([]);
@@ -15,6 +16,7 @@ const TableProduct = () => {
   const [currentPage, setCurrentPage] = useState(1); // صفحه حال حاضر
   const [countOnPage, setCountOnPage] = useState(10); // تعداد محصول در هر صفحه
   const [pageCount, setPageCount] = useState(0); // تعداد کل صفحات
+  const hasAddProductPermission = useHasPermission("create_product");
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -105,7 +107,9 @@ const TableProduct = () => {
         pageCount={pageCount}
         handleSearch={handleSearch}
       >
-        <AddButtonLink href={"/products/add-product"} />
+        {hasAddProductPermission && (
+          <AddButtonLink href={"/products/add-product"} />
+        )}
       </PaginatedDataTable>
     </Fragment>
   );

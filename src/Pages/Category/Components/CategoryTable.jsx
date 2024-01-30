@@ -10,6 +10,7 @@ import Actions from "./tableAdditions/Actions";
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import { convertDateToJalaali } from "../../../Utils/convertDate";
 import { Alert, Confirm } from "../../../Utils/alerts";
+import { useHasPermission } from "../../../Hooks/permissionsHook";
 
 const CategoryTable = () => {
   const params = useParams(); // get id from navigate in Actions.jsx
@@ -17,6 +18,7 @@ const CategoryTable = () => {
   const [data, setData] = useState([]);
   const [forceRender, setForceRender] = useState(0);
   const [loading, setLoading] = useState(false);
+  const hasAddCategoryPermission = useHasPermission("create_category");
   const handleGetCategories = async () => {
     setLoading(true);
     try {
@@ -78,25 +80,6 @@ const CategoryTable = () => {
     },
   ];
 
-  // const additionalField = [
-  //   {
-  //     title: "تاریخ",
-  //     elements: (rowData) => convertDateToJalaali(rowData.created_at),
-  //   },
-  //   {
-  //     title: "نمایش در منو",
-  //     elements: (rowData) => <ShowInMenu rowData={rowData} />,
-  //   },
-  //   {
-  //     title: "عملیات",
-  //     elements: (rowData) => (
-  //       <Actions
-  //         rowData={rowData}
-  //         handleDeleteCategory={handleDeleteCategory}
-  //       />
-  //     ),
-  //   },
-  // ];
   const searchParams = {
     title: "جستجو",
     placeholder: "قسمتی از عنوان را وارد کنید",
@@ -112,7 +95,9 @@ const CategoryTable = () => {
         searchParams={searchParams}
         loading={loading}
       >
-        <AddCategory setForceRender={setForceRender} />
+        {hasAddCategoryPermission && (
+          <AddCategory setForceRender={setForceRender} />
+        )}
       </PaginatedTable>
     </Fragment>
   );
