@@ -28,6 +28,7 @@ import AddRole from "./Roles/Components/addRole";
 import AddUser from "./Users/Components/addUser";
 import { useHasPermission } from "../Hooks/permissionsHook";
 import PermissionsComponent from "../Components/PermissionsComponent";
+import AddDelivery from "./Deliveries/Components/addDelivery";
 
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
@@ -47,6 +48,7 @@ const Content = () => {
   const hasDiscountPermission = useHasPermission("read_discounts");
   const hasUserPermission = useHasPermission("read_users");
   const hasRolePermission = useHasPermission("read_roles");
+  const hasDeliveyPermission = useHasPermission("read_deliveries");
 
   return (
     <section
@@ -221,7 +223,19 @@ const Content = () => {
 
         <Route path="/carts" element={<Carts />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/deliveries" element={<Deliveries />} />
+        {hasDeliveyPermission && (
+          <Route path="/deliveries" element={<Deliveries />}>
+            <Route
+              path="add-delivery"
+              element={
+                <PermissionsComponent
+                  component={<AddDelivery />}
+                  permissionTitle={"create_delivery"}
+                />
+              }
+            />
+          </Route>
+        )}
 
         {hasUserPermission && (
           <Route path="/users" element={<Users />}>
