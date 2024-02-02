@@ -6,12 +6,14 @@ const Actions = ({ rowData, handleDeleteCart }) => {
   const navigation = useNavigate();
   return (
     <>
-      {/* <ActionIcon
+      <ActionIcon
         icon="fas fa-edit text-warning"
         pTitle="update_cart"
         title="ویرایش سبد"
-        onClick={() => navigation("/carts/add-cart", { state: { cartId: rowData.id } })}
-      /> */}
+        onClick={() =>
+          navigation("/carts/add-cart", { state: { cartId: rowData.id } })
+        }
+      />
       <ActionIcon
         icon="fas fa-times text-danger"
         pTitle="delete_cart"

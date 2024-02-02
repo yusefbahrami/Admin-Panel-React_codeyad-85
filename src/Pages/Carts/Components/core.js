@@ -11,28 +11,25 @@ export const initialValues = {
 export const onSubmit = async (
   values,
   actions,
-  setSelectedProducts,
   setSelectedProductsInfo,
   currentProduct
 ) => {
-  setSelectedProducts((old) => [...old, { ...values }]);
   actions.resetForm();
   actions.setFieldValue("user_id", values.user_id);
   setSelectedProductsInfo((old) => [
     ...old,
     {
       id: currentProduct.id + Math.random(),
-      productName: currentProduct.title,
-      price: currentProduct.price,
+      product: currentProduct,
       guarantee:
         values.guarantee_id > 0
           ? currentProduct.guarantees.filter(
               (g) => g.id == values.guarantee_id
-            )[0].title
+            )[0]
           : null,
       color:
         values.color_id > 0
-          ? currentProduct.colors.filter((c) => c.id == values.color_id)[0].code
+          ? currentProduct.colors.filter((c) => c.id == values.color_id)[0]
           : null,
       count: values.count,
     },
