@@ -5,7 +5,7 @@ import { Form, Formik } from "formik";
 import FormikControl from "../../../Components/Form/FormikControl";
 import { initialValues, onSubmit, validationSchema } from "./core";
 import SubmitButton from "../../../Components/Form/SubmitButton";
-import { getAllProductsTitle } from "../../../Services/products";
+import { getAllProductsTitlesService } from "../../../Services/products";
 import { convertDateToJalaali } from "../../../Utils/convertDate";
 
 const AddDiscount = () => {
@@ -20,8 +20,8 @@ const AddDiscount = () => {
 
   const [reInitialValues, setReInitialValues] = useState(null);
 
-  const handleGetAllProductsTitle = async () => {
-    const res = await getAllProductsTitle();
+  const handlegetAllProductsTitlesService = async () => {
+    const res = await getAllProductsTitlesService();
     if (res.status == 200) {
       setAllProducts(
         res.data.data.map((p) => {
@@ -54,7 +54,7 @@ const AddDiscount = () => {
   };
 
   useEffect(() => {
-    handleGetAllProductsTitle();
+    handlegetAllProductsTitlesService();
 
     if (discountToEdit) {
       setSelectedProducts(

@@ -10,6 +10,15 @@ export const getProductService = (page, countOnPage, searchChar) => {
   );
 };
 
+export const getOneProductService = (productId) => {
+  return httpService(
+    `/admin/products/${productId}`,
+    "get",
+    null,
+    "application/json"
+  );
+};
+
 export const deleteProductService = (productId) => {
   return httpService(
     `/admin/products/${productId}`,
@@ -78,7 +87,7 @@ export const setMainProductImageService = (imageId) => {
 };
 
 // -------- Title --------
-export const getAllProductsTitle = () => {
+export const getAllProductsTitlesService = () => {
   return httpService(
     "/admin/products/all_titles",
     "get",
