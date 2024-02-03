@@ -30,6 +30,7 @@ import { useHasPermission } from "../Hooks/permissionsHook";
 import PermissionsComponent from "../Components/PermissionsComponent";
 import AddDelivery from "./Deliveries/Components/addDelivery";
 import AddCart from "./Carts/Components/addCart";
+import AddOrder from "./Orders/Components/addOrder";
 
 const Content = () => {
   const { showSidebar } = useContext(AdminContext);
@@ -51,90 +52,13 @@ const Content = () => {
   const hasRolePermission = useHasPermission("read_roles");
   const hasDeliveyPermission = useHasPermission("read_deliveries");
   const hasCartPermission = useHasPermission("read_carts");
+  const hasOrderPermission = useHasPermission("read_orders");
 
   return (
     <section
       id="content_section"
       className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : ""}`}
     >
-      {/* <Routes> 
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/categories" element={<Category />}>
-          <Route path=":categoryId" element={<CategoryChildren />} />
-        </Route>
-        <Route
-          path="/categories/:categoryId/attributes"
-          element={<Attributes />}
-        />
-        <Route path="/products" element={<Product />} />
-        <Route path="/products/add-product" element={<AddProduct />} />
-        <Route path="/products/set-attr" element={<SetAttribute />} />
-        <Route path="/products/gallery" element={<ProductGallery />} />
-        <Route path="/colors" element={<Colors />} />
-        <Route path="/guranties" element={<Guranties />} />
-        <Route path="/brands" element={<Brands />} />
-        <Route path="/carts" element={<Carts />} />
-        <Route path="/discounts" element={<Discounts />}>
-          <Route path="add-discount-code" element={<AddDiscount />} />
-        </Route>
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/deliveries" element={<Deliveries />} />
-        <Route path="/users" element={<Users />}>
-          <Route path="add-user" element={<AddUser />} />
-        </Route>
-        <Route path="/roles" element={<Roles />}>
-          <Route path="add-role" element={<AddRole />} />
-        </Route>
-        <Route path="/permissions" element={<Permissions />} />
-        <Route path="/comments" element={<Comments />} />
-        <Route path="/questions" element={<Questions />} />
-        <Route path="/logout" element={<Logout />} />
-
-        <Route path="/*" element={<Dashboard />} />
-      </Routes> */}
-      {/* <Routes>
-        <Route path="/" element={<Dashboard />} />
-        {hasPermission("read_categories") && (
-          <Route path="/categories" element={<Category />}>
-            <Route path=":categoryId" element={<CategoryChildren />} />
-          </Route>
-        )}
-        {hasPermission("read_category_attrs") && (
-          <Route
-            path="/categories/:categoryId/attributes"
-            element={<Attributes />}
-          />
-        )}
-        {hasPermission("read_products") && (
-          <Route path="/products" element={<Product />} />
-        )}
-        <Route path="/products/add-product" element={<AddProduct />} />
-        <Route path="/products/set-attr" element={<SetAttribute />} />
-        <Route path="/products/gallery" element={<ProductGallery />} />
-        <Route path="/colors" element={<Colors />} />
-        <Route path="/guranties" element={<Guranties />} />
-        <Route path="/brands" element={<Brands />} />
-        <Route path="/discounts" element={<Discounts />}>
-          <Route path="add-discount-code" element={<AddDiscount />} />
-        </Route>
-        <Route path="/carts" element={<Carts />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/deliveries" element={<Deliveries />} />
-
-        <Route path="/users" element={<Users />}>
-          <Route path="add-user" element={<AddUser />} />
-        </Route>
-
-        <Route path="/roles" element={<Roles />}>
-          <Route path="add-role" element={<AddRole />} />
-        </Route>
-        <Route path="/permissions" element={<Permissions />} />
-        <Route path="/questions" element={<Questions />} />
-        <Route path="/comments" element={<Comments />} />
-        <Route path="/logout" element={<Logout />} />
-
-        <Route path="*" element={<Dashboard />} />
-      </Routes> */}
       <Routes>
         <Route path="/" element={<Dashboard />} />
         {hasCategoryPermission && (
@@ -237,7 +161,19 @@ const Content = () => {
           </Route>
         )}
 
-        <Route path="/orders" element={<Orders />} />
+        {hasOrderPermission && (
+          <Route path="/orders" element={<Orders />}>
+            <Route
+              path="add-order"
+              element={
+                <PermissionsComponent
+                  component={<AddOrder />}
+                  pTitle="create_order"
+                />
+              }
+            />
+          </Route>
+        )}
 
         {hasDeliveyPermission && (
           <Route path="/deliveries" element={<Deliveries />}>

@@ -1,79 +1,67 @@
-import React, { Fragment } from "react";
+import React, { useEffect, useState } from "react";
+import PaginatedTable from "../../../Components/PaginatedTable";
+import { Alert, Confirm } from "../../../Utils/alerts";
+import { deleteRoleService, getAllRolesService } from "../../../Services/users";
+import AddButtonLink from "../../../Components/AddButtonLink";
+import { Outlet } from "react-router-dom";
+import Actions from "./tableAdditions/Action";
 
 const OrdersTable = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const dataInfo = [
+    { field: "id", title: "#" },
+    { field: "title", title: "عنوان" },
+    { field: "description", title: "توضیحات" },
+    {
+      field: null,
+      title: "عملیات",
+      elements: (rowData) => (
+        <Actions rowData={rowData} handleDeleteRole={handleDeleteRole} />
+      ),
+    },
+  ];
+
+  const searchParams = {
+    title: "جستجو",
+    placeholder: "قسمتی از عنوان را وارد کنید",
+    searchField: "title",
+  };
+
+  const handleGetAllRoles = async () => {
+    setLoading(true);
+    const res = await getAllRolesService();
+    res && setLoading(false);
+    if (res.status === 200) {
+      setData(res.data.data);
+    }
+  };
+
+  const handleDeleteRole = async (role) => {
+    if (await Confirm(role.title, "آیا از حذف این نقش اطمینان دارید؟")) {
+      const res = await deleteRoleService(role.id);
+      if (res.status === 200) {
+        Alert("success", "انجام شد", res.data.message);
+        setData((old) => old.filter((d) => d.id != role.id));
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleGetAllRoles();
+  }, []);
   return (
-    <Fragment>
-      <table className="table table-responsive text-center table-hover table-bordered">
-        <thead className="table-secondary">
-          <tr>
-            <th>#</th>
-            <th>آی دی مشتری</th>
-            <th>نام مشتری</th>
-            <th>وضعیت</th>
-            <th>تاریخ پرداخت</th>
-            <th>مبلغ پرداختی</th>
-            <th>عملیات</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>50</td>
-            <td>قاسم بساکی</td>
-            <td>پرداخت شده</td>
-            <td>1400/07/15</td>
-            <td>100هزار تومان</td>
-            <td>
-              <i
-                className="fas fa-shopping-cart text-info mx-1 hoverable_text pointer has_tooltip"
-                title="  جزئیات سفارش"
-                data-bs-toggle="modal"
-                data-bs-placement="top"
-                data-bs-target="#order_details_modal"
-              ></i>
-              <i
-                className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                title="حذف سفارش"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-              ></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <nav
-        aria-label="Page navigation example"
-        className="d-flex justify-content-center"
-      >
-        <ul className="pagination dir_ltr">
-          <li className="page-item">
-            <a className="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </Fragment>
+    <PaginatedTable
+      data={data}
+      dataInfo={dataInfo}
+      numOfPAge={8}
+      searchParams={searchParams}
+      loading={loading}
+    >
+      <AddButtonLink href={"/roles/add-role"} />
+      <Outlet context={{ setData }} />
+    </PaginatedTable>
   );
 };
 export default OrdersTable;
