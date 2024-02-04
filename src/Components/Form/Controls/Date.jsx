@@ -82,8 +82,7 @@ const Date = ({
         />
         {label && (
           <span className="input-group-text w_6rem justify-content-center">
-            {" "}
-            {label}{" "}
+            {label}
           </span>
         )}
       </div>

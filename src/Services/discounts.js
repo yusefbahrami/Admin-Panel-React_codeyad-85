@@ -4,6 +4,15 @@ export const getAllDiscountsService = () => {
   return httpService("/admin/discounts", "get", null, "application/json");
 };
 
+export const getOneDiscountService = (discountId) => {
+  return httpService(
+    `/admin/discounts/${discountId}`,
+    "get",
+    null,
+    "application/json"
+  );
+};
+
 export const adNewDiscountsService = (data) => {
   return httpService("/admin/discounts", "post", data, "application/json");
 };

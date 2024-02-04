@@ -1,67 +1,166 @@
 import React, { useEffect, useState } from "react";
-import PaginatedTable from "../../../Components/PaginatedTable";
 import { Alert, Confirm } from "../../../Utils/alerts";
-import { deleteRoleService, getAllRolesService } from "../../../Services/users";
 import AddButtonLink from "../../../Components/AddButtonLink";
 import { Outlet } from "react-router-dom";
 import Actions from "./tableAdditions/Action";
+import {
+  deleteOrderService,
+  getAllPaginatedOrdersService,
+} from "../../../Services/orders";
+import { numberWithCommas } from "../../../Utils/numbers";
+import { convertDateToJalaali } from "../../../Utils/convertDate";
+import PaginatedDataTable from "../../../Components/PaginatedDataTable";
 
 const OrdersTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchChar, setSearchChar] = useState("");
+  const [currentPage, setCurrentPage] = useState(1); // صفحه حال حاضر
+  const [countOnPage, setCountOnPage] = useState(10); // تعداد محصول در هر صفحه
+  const [pageCount, setPageCount] = useState(0); // تعداد کل صفحات
 
   const dataInfo = [
     { field: "id", title: "#" },
-    { field: "title", title: "عنوان" },
-    { field: "description", title: "توضیحات" },
+    { field: "user_id", title: "آی دی کاربر" },
+    {
+      field: null,
+      title: "نام کاربر",
+      elements: (rowData) =>
+        `${rowData.user.first_name || ""} ${rowData.user.last_name || ""}`,
+    },
+    {
+      field: null,
+      title: "موبایل کاربر",
+      elements: (rowData) => rowData.user.phone,
+    },
+    { field: "cart_id", title: "کد سبد" },
+    {
+      field: null,
+      title: "تاریخ پرداخت",
+      elements: (rowData) => convertDateToJalaali(rowData.pay_at),
+    },
+    {
+      field: null,
+      title: "مبلغ پرداختی",
+      elements: (rowData) => numberWithCommas(rowData.pay_amount),
+    },
     {
       field: null,
       title: "عملیات",
       elements: (rowData) => (
-        <Actions rowData={rowData} handleDeleteRole={handleDeleteRole} />
+        <Actions rowData={rowData} handleDeleteOrder={handleDeleteOrder} />
       ),
     },
   ];
 
   const searchParams = {
     title: "جستجو",
-    placeholder: "قسمتی از عنوان را وارد کنید",
-    searchField: "title",
+    placeholder: "قسمتی از شماره تماس کاربر را وارد کنید",
   };
 
-  const handleGetAllRoles = async () => {
+  const handleGetOrders = async (
+    page = currentPage,
+    count = countOnPage,
+    char = searchChar
+  ) => {
     setLoading(true);
-    const res = await getAllRolesService();
-    res && setLoading(false);
+    const res = await getAllPaginatedOrdersService(page, count, char);
+    setLoading(false);
     if (res.status === 200) {
-      setData(res.data.data);
+      setData(res.data.data.data);
+      setPageCount(res.data.last_page);
     }
   };
 
-  const handleDeleteRole = async (role) => {
-    if (await Confirm(role.title, "آیا از حذف این نقش اطمینان دارید؟")) {
-      const res = await deleteRoleService(role.id);
+  const handleSearch = (char) => {
+    setSearchChar(char);
+    handleGetOrders(1, countOnPage, char);
+  };
+
+  const handleDeleteOrder = async (order) => {
+    if (await Confirm("حذف سفارش", `آیا از حذف ${order.id} اطمینان دارید؟`)) {
+      const res = await deleteOrderService(order.id);
       if (res.status === 200) {
         Alert("success", "انجام شد", res.data.message);
-        setData((old) => old.filter((d) => d.id != role.id));
+        handleGetOrders();
       }
     }
   };
 
   useEffect(() => {
-    handleGetAllRoles();
-  }, []);
+    handleGetOrders();
+  }, [currentPage]);
+
   return (
-    <PaginatedTable
-      data={data}
+    <PaginatedDataTable
+      tableData={data}
       dataInfo={dataInfo}
-      numOfPAge={8}
       searchParams={searchParams}
       loading={loading}
+      currentPage={currentPage}
+      setCurrentPage={setCurrentPage}
+      pageCount={pageCount}
+      handleSearch={handleSearch}
     >
-      <AddButtonLink href={"/roles/add-role"} />
-      <Outlet context={{ setData }} />
-    </PaginatedTable>
+      <AddButtonLink href={"/orders/add-order"} />
+      <Outlet context={{ handleGetOrders }} />
+    </PaginatedDataTable>
   );
+  // const [data, setData] = useState([]);
+  // const [loading, setLoading] = useState(false);
+
+  // const dataInfo = [
+  //   { field: "id", title: "#" },
+  //   { field: "title", title: "عنوان" },
+  //   { field: "description", title: "توضیحات" },
+  //   {
+  //     field: null,
+  //     title: "عملیات",
+  //     elements: (rowData) => (
+  //       <Actions rowData={rowData} handleDeleteRole={handleDeleteRole} />
+  //     ),
+  //   },
+  // ];
+
+  // const searchParams = {
+  //   title: "جستجو",
+  //   placeholder: "قسمتی از عنوان را وارد کنید",
+  //   searchField: "title",
+  // };
+
+  // const handleGetAllRoles = async () => {
+  //   setLoading(true);
+  //   const res = await getAllRolesService();
+  //   res && setLoading(false);
+  //   if (res.status === 200) {
+  //     setData(res.data.data);
+  //   }
+  // };
+
+  // const handleDeleteRole = async (role) => {
+  //   if (await Confirm(role.title, "آیا از حذف این نقش اطمینان دارید؟")) {
+  //     const res = await deleteRoleService(role.id);
+  //     if (res.status === 200) {
+  //       Alert("success", "انجام شد", res.data.message);
+  //       setData((old) => old.filter((d) => d.id != role.id));
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   handleGetAllRoles();
+  // }, []);
+  // return (
+  //   <PaginatedTable
+  //     data={data}
+  //     dataInfo={dataInfo}
+  //     numOfPAge={8}
+  //     searchParams={searchParams}
+  //     loading={loading}
+  //   >
+  //     <AddButtonLink href={"/orders/add-order"} />
+  //     <Outlet context={{ setData }} />
+  //   </PaginatedTable>
+  // );
 };
 export default OrdersTable;

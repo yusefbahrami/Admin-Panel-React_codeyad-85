@@ -13,7 +13,7 @@ export const addNewOrderService = (data) => {
   return httpService("/admin/orders", "post", data, "application/json");
 };
 
-export const getSinglrOrderService = (orderId) => {
+export const getSingleOrderService = (orderId) => {
   return httpService(
     `/admin/orders/${orderId}`,
     "get",

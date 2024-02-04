@@ -7,9 +7,11 @@ const ControlContainer = ({ children, name, className, label }) => {
     <div className={`col-12 ${className}`}>
       <div className="input-group mb-3 dir_ltr">
         {children}
-        <span className="input-group-text w_6rem justify-content-center">
-          {label}
-        </span>
+        {label && (
+          <span className="input-group-text w_6rem justify-content-center">
+            {label}
+          </span>
+        )}
       </div>
       <ErrorMessage name={name} component={FormikError} />
     </div>

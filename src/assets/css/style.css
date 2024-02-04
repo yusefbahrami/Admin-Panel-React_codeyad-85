@@ -513,3 +513,7 @@ th {
   font-family: "BYekan" !important;
   text-align: right !important;
 }
+
+.mini_data_box select {
+  padding: 0 !important;
+}
