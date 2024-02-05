@@ -95,3 +95,22 @@ export const getAllProductsTitlesService = () => {
     "application/json"
   );
 };
+
+// -------- Fewer Products --------
+export const getFewerProductsService = () => {
+  return httpService(
+    "/admin/products/fewer_products",
+    "get",
+    null,
+    "application/json"
+  );
+};
+
+export const toggleNotificationService = (productId) => {
+  return httpService(
+    `/admin/products/toggle_notification/${productId}`,
+    "get",
+    null,
+    "application/json"
+  );
+};
