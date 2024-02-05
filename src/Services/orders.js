@@ -34,3 +34,21 @@ export const deleteOrderService = (orderId) => {
     "application/json"
   );
 };
+
+export const getOrdersStatisticsService = () => {
+  return httpService(
+    "/admin/orders/orders_statistics",
+    "get",
+    null,
+    "application/json"
+  );
+};
+
+export const getThisYearOrdersService = () => {
+  return httpService(
+    "/admin/orders/this_year_orders",
+    "get",
+    null,
+    "application/json"
+  );
+};
